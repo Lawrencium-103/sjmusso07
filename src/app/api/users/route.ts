@@ -4,17 +4,18 @@ import { getCurrentUser } from "@/lib/auth";
 
 export async function GET() {
   try {
-    const user = await getCurrentUser();
-    if (!user || (user.role !== "super_admin" && user.role !== "admin")) {
-      return NextResponse.json({ error: "Not authorized" }, { status: 403 });
-    }
-
     const db = getDb();
     const rows = await db.all(
       "SELECT id, name, email, phone_no, gender, location, occupation, role, created_at FROM alumni ORDER BY name"
     );
 
-    return NextResponse.json({ users: rows });
+    const user = await getCurrentUser();
+    if (user && (user.role === "super_admin" || user.role === "admin")) {
+      return NextResponse.json({ users: rows });
+    }
+
+    const publicRows = rows.map((r: any) => ({ id: r.id, name: r.name }));
+    return NextResponse.json({ users: publicRows });
   } catch (error) {
     console.error("Users GET error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
