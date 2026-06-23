@@ -98,6 +98,12 @@ export default function Footer() {
               >
                 sjmusso07@gmail.com
               </a>
+              <a
+                href="mailto:oluyemi.akinmusire@gmail.com"
+                className="hover:text-white transition-all duration-200 hover:translate-x-0.5 inline-block text-white/40 text-[11px]"
+              >
+                Coordinator: oluyemi.akinmusire@gmail.com
+              </a>
             </div>
           </div>
         </div>
