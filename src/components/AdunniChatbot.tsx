@@ -271,7 +271,7 @@ export default function AdunniChatbot() {
               <h3 className="text-sm font-bold tracking-tight">Adunni</h3>
               <p className="text-[10px] text-white/60 flex items-center gap-1">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 inline-block" />
-                Online {'\u2022'} Yor\u00f9b\u00e1 Guide
+{`Online \u2022 Yor\u00f9b\u00e1 Guide`}
               </p>
             </div>
             <button
