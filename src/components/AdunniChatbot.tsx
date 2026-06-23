@@ -103,11 +103,30 @@ export default function AdunniChatbot() {
     return anyFemale || voices[0] || null;
   }, [voices]);
 
+  const stripEmojis = (text: string): string => {
+    return text.replace(
+      /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{FE00}-\u{FE0F}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{200D}\u{20E3}\u{231A}-\u{23FA}\u{25AA}-\u{25FE}\u{2934}-\u{2935}\u{2B05}-\u{2B55}\u{3030}\u{303D}\u{3297}\u{3299}\u{2702}-\u{27B0}\u{23CF}\u{23E9}-\u{23F3}\u{23F8}-\u{23FA}\u{24C2}\u{25B6}\u{25C0}\u{25FB}-\u{25FE}\u{2600}-\u{27BF}\u{2B55}\u{2B1B}-\u{2B1C}]/gu,
+      ""
+    ).trim();
+  };
+
+  const prepareForSpeech = (text: string): string => {
+    return stripEmojis(text)
+      .replace(/SJMUSSO(?: '07)?/g, "Saint John Mary's Unity Secondary School 2007 Alumni")
+      .replace(/SJMUSSO/g, "Saint John Mary's Unity Secondary School")
+      .replace(/GDPR/g, "G D P R")
+      .replace(/NDPR/g, "N D P R")
+      .replace(/TTS/g, "T T S")
+      .replace(/\bAI\b/g, "A I");
+  };
+
   const speak = useCallback(
     (text: string) => {
       if (!supported.speech) return;
+      const clean = prepareForSpeech(text);
+      if (!clean) return;
       window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
+      const utterance = new SpeechSynthesisUtterance(clean);
       const voice = findNigerianFemaleVoice();
       if (voice) utterance.voice = voice;
       utterance.lang = "en-NG";
