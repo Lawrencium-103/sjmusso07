@@ -83,16 +83,24 @@ export default function AdunniChatbot() {
     }
   }, [typingIndex, messages, speakResponse, supported.speech]);
 
-  const findFemaleVoice = useCallback((): SpeechSynthesisVoice | null => {
-    const sorted = [...voices].sort((a, b) => {
-      const aIsNigerian = a.lang.includes("NG") || a.lang.includes("GH") ? -1 : 1;
-      const bIsNigerian = b.lang.includes("NG") || b.lang.includes("GH") ? -1 : 1;
-      if (aIsNigerian !== bIsNigerian) return aIsNigerian - bIsNigerian;
-      const aIsFemale = a.name.includes("Female") || a.name.includes("Zira") || a.name.includes("Hazel") ? -1 : 1;
-      const bIsFemale = b.name.includes("Female") || b.name.includes("Zira") || b.name.includes("Hazel") ? -1 : 1;
-      return aIsFemale - bIsFemale;
-    });
-    return sorted[0] || null;
+  const findNigerianFemaleVoice = useCallback((): SpeechSynthesisVoice | null => {
+    const nigerian = voices.find(
+      (v) =>
+        (v.lang.includes("NG") || v.lang.includes("GH") || v.lang.includes("ZA")) &&
+        (v.name.toLowerCase().includes("female") || v.name.includes("Zira") || v.name.includes("Hazel"))
+    );
+    if (nigerian) return nigerian;
+    const anyFemale = voices.find(
+      (v) =>
+        v.name.toLowerCase().includes("female") ||
+        v.name.includes("Zira") ||
+        v.name.includes("Hazel") ||
+        v.name.includes("Samantha") ||
+        v.name.includes("Moira") ||
+        v.name.includes("Tessa") ||
+        v.name.includes("Karen")
+    );
+    return anyFemale || voices[0] || null;
   }, [voices]);
 
   const speak = useCallback(
@@ -100,14 +108,15 @@ export default function AdunniChatbot() {
       if (!supported.speech) return;
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
-      const voice = findFemaleVoice();
+      const voice = findNigerianFemaleVoice();
       if (voice) utterance.voice = voice;
-      utterance.rate = 1.05;
-      utterance.pitch = 1.1;
+      utterance.lang = "en-NG";
+      utterance.rate = 0.92;
+      utterance.pitch = 1.05;
       utterance.volume = 1;
       window.speechSynthesis.speak(utterance);
     },
-    [supported.speech, findFemaleVoice]
+    [supported.speech, findNigerianFemaleVoice]
   );
 
   const startListening = useCallback(() => {
@@ -243,7 +252,7 @@ export default function AdunniChatbot() {
               <h3 className="text-sm font-bold tracking-tight">Adunni</h3>
               <p className="text-[10px] text-white/60 flex items-center gap-1">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 inline-block" />
-                Online \u2022 Yor\u00f9b\u00e1 Guide
+                Online {'\u2022'} Yor\u00f9b\u00e1 Guide
               </p>
             </div>
             <button
@@ -345,7 +354,7 @@ export default function AdunniChatbot() {
             </button>
           </form>
           <div className="flex items-center justify-between mt-2">
-            <span className="text-[10px] text-gray-400">Ire o! \u270c\ud83c\udffe</span>
+            <span className="text-[10px] text-gray-400">{'\u2728'} Ask me anything, sister!</span>
             {supported.speech && (
               <button
                 type="button"
