@@ -51,6 +51,9 @@ export default function AdminPage() {
   const [newPosition, setNewPosition] = useState({ title: "", description: "" });
   const [newAspirant, setNewAspirant] = useState({ name: "", position_id: "" });
   const [newNews, setNewNews] = useState({ title: "", content: "" });
+  const [editNewsId, setEditNewsId] = useState<number | null>(null);
+  const [editNewsTitle, setEditNewsTitle] = useState("");
+  const [editNewsContent, setEditNewsContent] = useState("");
   const [msg, setMsg] = useState({ type: "", text: "" });
   const [footerCreditText, setFooterCreditText] = useState("");
   const [footerCreditLink, setFooterCreditLink] = useState("");
@@ -108,6 +111,9 @@ export default function AdminPage() {
   const handleDeleteAspirant = async (id: number) => { try { await fetch(`/api/aspirants?id=${id}`, { method: "DELETE" }); refreshData(); } catch { setMsg({ type: "error", text: "Failed" }); } };
   const handleAddNews = async (e: React.FormEvent) => { e.preventDefault(); try { const res = await fetch("/api/news", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(newNews) }); if (res.ok) { setNewNews({ title: "", content: "" }); setMsg({ type: "success", text: "News published" }); refreshData(); } } catch { setMsg({ type: "error", text: "Failed" }); } };
   const handleDeleteNews = async (id: number) => { try { await fetch(`/api/news?id=${id}`, { method: "DELETE" }); refreshData(); } catch { setMsg({ type: "error", text: "Failed" }); } };
+  const handleStartEditNews = (item: NewsItem) => { setEditNewsId(item.id); setEditNewsTitle(item.title); setEditNewsContent(item.content); };
+  const handleCancelEditNews = () => { setEditNewsId(null); setEditNewsTitle(""); setEditNewsContent(""); };
+  const handleSaveEditNews = async () => { try { const res = await fetch("/api/news", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: editNewsId, title: editNewsTitle, content: editNewsContent }) }); if (res.ok) { setMsg({ type: "success", text: "News updated" }); handleCancelEditNews(); refreshData(); } else { const d = await res.json(); setMsg({ type: "error", text: d.error || "Failed to update" }); } } catch { setMsg({ type: "error", text: "Network error" }); } };
   const handleToggleAttendance = async (meetingId: number, alumniId: number, current: number) => { try { await fetch("/api/attendance", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ meeting_id: meetingId, alumni_id: alumniId, attended: current ? 0 : 1 }) }); refreshData(); } catch { setMsg({ type: "error", text: "Failed" }); } };
   const handleTogglePaid = async (alumniId: number, year: number, month: number, paid: number) => { try { await fetch("/api/payments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ alumni_id: alumniId, year, month, paid: paid ? 0 : 1 }) }); refreshData(); } catch { setMsg({ type: "error", text: "Failed" }); } };
   const handleConfirmPayment = async (alumniId: number, year: number, month: number) => { try { await fetch("/api/payments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ alumni_id: alumniId, year, month, paid: 1, confirmed: 1 }) }); refreshData(); } catch { setMsg({ type: "error", text: "Failed" }); } };
@@ -664,14 +670,30 @@ export default function AdminPage() {
                 ) : (
                   news.map((item) => (
                     <div key={item.id} className="rounded-2xl border border-gray-100/80 bg-white p-5 shadow-sm hover:shadow-md transition-all duration-300">
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex-1 min-w-0">
-                          <h3 className="font-semibold text-gray-800 text-sm">{item.title}</h3>
-                          <p className="mt-1 text-[11px] text-gray-400">{new Date(item.created_at).toLocaleDateString()} by {item.created_by_name}</p>
+                      {editNewsId === item.id ? (
+                        <div className="space-y-3">
+                          <input className="input text-sm" value={editNewsTitle} onChange={(e) => setEditNewsTitle(e.target.value)} placeholder="Title" />
+                          <textarea className="input min-h-[120px] resize-y text-sm" value={editNewsContent} onChange={(e) => setEditNewsContent(e.target.value)} placeholder="Content" />
+                          <div className="flex gap-2 justify-end">
+                            <button onClick={handleCancelEditNews} className="btn-ghost text-xs">Cancel</button>
+                            <button onClick={handleSaveEditNews} className="btn-primary text-xs">Save</button>
+                          </div>
                         </div>
-                        <button onClick={() => handleDeleteNews(item.id)} className="text-xs font-medium text-red-400 hover:text-red-600 transition-colors shrink-0">Delete</button>
-                      </div>
-                      <p className="mt-3 whitespace-pre-wrap text-sm text-gray-600 leading-relaxed">{item.content.substring(0, 200)}{item.content.length > 200 ? "..." : ""}</p>
+                      ) : (
+                        <>
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-semibold text-gray-800 text-sm">{item.title}</h3>
+                              <p className="mt-1 text-[11px] text-gray-400">{new Date(item.created_at).toLocaleDateString()} by {item.created_by_name}</p>
+                            </div>
+                            <div className="flex gap-2 shrink-0">
+                              <button onClick={() => handleStartEditNews(item)} className="text-xs font-medium text-brand-blue hover:text-blue-700 transition-colors">Edit</button>
+                              <button onClick={() => handleDeleteNews(item.id)} className="text-xs font-medium text-red-400 hover:text-red-600 transition-colors">Delete</button>
+                            </div>
+                          </div>
+                          <p className="mt-3 whitespace-pre-wrap text-sm text-gray-600 leading-relaxed">{item.content.substring(0, 200)}{item.content.length > 200 ? "..." : ""}</p>
+                        </>
+                      )}
                     </div>
                   ))
                 )}
