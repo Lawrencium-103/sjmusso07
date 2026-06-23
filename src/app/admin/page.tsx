@@ -190,6 +190,28 @@ export default function AdminPage() {
           </div>
         </header>
 
+        {/* ─── MOBILE HORIZONTAL NAV ─── */}
+        <div className="lg:hidden border-b border-gray-200/60 bg-white/50 backdrop-blur-sm overflow-x-auto scrollbar-hide">
+          <div className="flex gap-1 px-4 py-2 min-w-max">
+            {navItems.map((item) => (
+              <button
+                key={item.key}
+                onClick={() => { setTab(item.key); setSidebarOpen(false); }}
+                className={`flex items-center gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                  tab === item.key
+                    ? "bg-brand-blue text-white shadow-sm"
+                    : "text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3.5 h-3.5 shrink-0">
+                  <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+                </svg>
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className="px-4 lg:px-6 py-5 max-w-7xl mx-auto">
           {msg.text && (
             <div className={`mb-5 rounded-xl border p-4 text-sm flex items-center justify-between transition-all ${

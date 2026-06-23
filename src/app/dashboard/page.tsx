@@ -158,17 +158,20 @@ export default function DashboardPage() {
       </header>
 
       <div className="border-b border-gray-200/60 bg-white/50 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-7xl gap-1.5 overflow-x-auto px-4 py-2.5 scrollbar-hide">
-          <button onClick={() => setTab("overview")} className={tabClasses("overview")}>Overview</button>
-          <button onClick={() => setTab("attendance")} className={tabClasses("attendance")}>Attendance</button>
-          <button onClick={() => setTab("contributions")} className={tabClasses("contributions")}>Contributions</button>
-          <a href="/vote" className="relative inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium rounded-lg bg-gradient-to-r from-brand-gold to-yellow-600 text-white shadow-md shadow-brand-gold/20 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:shadow-lg hover:shadow-brand-gold/30 hover:-translate-y-0.5 active:scale-[0.97]">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Vote Now
-          </a>
-          <button onClick={() => setTab("news")} className={tabClasses("news")}>News</button>
+        <div className="relative mx-auto max-w-7xl">
+          <div className="flex gap-1.5 overflow-x-auto px-4 py-2.5 scrollbar-hide">
+            <button onClick={() => setTab("overview")} className={tabClasses("overview")}>Overview</button>
+            <button onClick={() => setTab("attendance")} className={tabClasses("attendance")}>Attendance</button>
+            <button onClick={() => setTab("contributions")} className={tabClasses("contributions")}>Contributions</button>
+            <a href="/vote" className="relative inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium rounded-lg bg-gradient-to-r from-brand-gold to-yellow-600 text-white shadow-md shadow-brand-gold/20 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:shadow-lg hover:shadow-brand-gold/30 hover:-translate-y-0.5 active:scale-[0.97]">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Vote Now
+            </a>
+            <button onClick={() => setTab("news")} className={tabClasses("news")}>News</button>
+          </div>
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-white/90 to-transparent lg:hidden" />
         </div>
       </div>
 
