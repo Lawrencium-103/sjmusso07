@@ -244,7 +244,7 @@ export default function AdminPage() {
                 {[
                   { label: "Total Alumni", value: users.length, icon: "M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766", color: "from-brand-blue to-blue-700", shadow: "shadow-blue-200" },
                   { label: "Votes Cast", value: totalVotes, icon: "M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z", color: "from-emerald-500 to-green-600", shadow: "shadow-green-200" },
-                  { label: "Attendance", value: totalAttended, suffix: `/${attendance.length}`, icon: "M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z", color: "from-violet-500 to-purple-600", shadow: "shadow-purple-200" },
+                  { label: "Attendance", value: totalAttended, suffix: `/${attendance.length}`, icon: "M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z", color: "from-brand-blue/80 to-blue-600", shadow: "shadow-blue-200" },
                   { label: "Turnout", value: `${turnout.percentage}%`, icon: "M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75z", color: "from-amber-400 to-yellow-600", shadow: "shadow-amber-200" },
                 ].map((stat, i) => (
                   <div key={stat.label} className="rounded-2xl border border-gray-100/80 bg-white p-5 shadow-sm hover:shadow-lg hover:shadow-gray-200/40 transition-all duration-500 hover:-translate-y-0.5" style={{ animation: `fadeUp 0.5s ease-out ${i * 0.08}s forwards`, opacity: 0 }}>
@@ -322,7 +322,7 @@ export default function AdminPage() {
                     <span className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-md transition-transform duration-300 ${resultsPublished ? "translate-x-6" : "translate-x-1"}`} />
                   </button>
                 </div>
-                <div className={`rounded-xl border p-4 text-sm ${resultsPublished ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-gray-50 border-gray-200 text-gray-500"}`}>
+                <div className={`rounded-xl border p-4 text-sm ${resultsPublished ? "bg-emerald-50 border-emerald-200 text-emerald-800" : "bg-gray-50 border-gray-200 text-gray-700"}`}>
                   {resultsPublished ? "Results are published and visible to all visitors on the homepage." : "Results are hidden. Toggle the switch above to publish."}
                 </div>
               </div>
@@ -414,7 +414,7 @@ export default function AdminPage() {
                         <td className="px-4 py-3 text-gray-500 text-sm">{u.location || "-"}</td>
                         <td className="px-4 py-3">
                           <span className={`inline-flex rounded-full px-2.5 py-0.5 text-[11px] font-semibold capitalize ${
-                            u.role === "super_admin" ? "bg-amber-50 text-amber-700 ring-1 ring-amber-200" : u.role === "admin" ? "bg-blue-50 text-blue-700 ring-1 ring-blue-200" : "bg-gray-100 text-gray-600"
+                            u.role === "super_admin" ? "bg-amber-50 text-amber-800 ring-1 ring-amber-200" : u.role === "admin" ? "bg-blue-50 text-blue-700 ring-1 ring-blue-200" : "bg-gray-100 text-gray-700"
                           }`}>{u.role.replace("_", " ")}</span>
                         </td>
                         {user?.role === "super_admin" && u.role !== "super_admin" && (

@@ -169,7 +169,7 @@ export default function Home() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-blue/30 rounded-full blur-3xl" />
         </div>
         <div className="relative flex flex-col items-center">
-          <div className="mb-6" style={{ animation: "bounceIn 0.6s ease-out forwards" }}>
+          <div className="mb-6" style={{ animation: "fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" }}>
             <div className="relative">
               <img src="/logo.jpeg" alt="SJMUSSO" className="h-28 w-28 sm:h-32 sm:w-32 rounded-3xl border-2 border-white/15 object-cover shadow-2xl shadow-black/30" />
               <div className="absolute -inset-1 rounded-3xl bg-gradient-to-br from-brand-gold/20 to-transparent opacity-0 animate-pulse" style={{ animationDelay: "0.5s", animationDuration: "2s" }} />
@@ -365,7 +365,7 @@ export default function Home() {
                     key={item.title}
                     className="group rounded-2xl border border-gray-100 bg-white p-6 sm:p-7 shadow-sm hover:shadow-xl hover:shadow-brand-blue/10 transition-all duration-500 hover:-translate-y-2 hover:border-brand-blue/20"
                     style={{
-                      animation: `bounceIn 0.6s ease-out ${i * 0.12 + 0.3}s forwards`,
+                      animation: `fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.1 + 0.2}s forwards`,
                       opacity: 0,
                     }}
                   >

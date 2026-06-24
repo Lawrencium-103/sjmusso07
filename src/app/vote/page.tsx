@@ -226,7 +226,7 @@ export default function VotePage() {
         <div className="relative w-full max-w-lg px-4 text-center">
           <div
             className="rounded-2xl bg-white/95 backdrop-blur-sm p-10 shadow-2xl shadow-black/20 border border-white/10"
-            style={{ animation: "bounceIn 0.6s ease-out forwards" }}
+            style={{ animation: "fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" }}
           >
             <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-green-400 to-emerald-600 shadow-lg shadow-green-500/30">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-10 h-10 text-white">

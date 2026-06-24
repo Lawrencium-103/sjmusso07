@@ -43,7 +43,7 @@ export default function Testimonials() {
               key={t.name}
               className="group relative rounded-2xl border border-gray-100 bg-white p-7 shadow-sm hover:shadow-xl hover:shadow-brand-blue/10 transition-all duration-500 hover:-translate-y-2 hover:border-brand-blue/20"
               style={{
-                animation: `bounceIn 0.6s ease-out ${i * 0.12}s forwards`,
+                animation: `fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.1}s forwards`,
                 opacity: 0,
               }}
             >
