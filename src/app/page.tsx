@@ -228,11 +228,6 @@ export default function Home() {
                 opacity: 0,
               }}
             >
-              <img
-                src="/logo.jpeg"
-                alt="School Logo"
-                className="h-20 w-20 sm:h-24 sm:w-24 rounded-2xl border-2 border-white/20 object-cover shadow-2xl shadow-black/40"
-              />
               <div>
                 <span className="inline-block rounded-full bg-brand-gold/15 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-gold border border-brand-gold/20 backdrop-blur-sm">
                   Saint John/Mary&apos;s Unity Secondary School

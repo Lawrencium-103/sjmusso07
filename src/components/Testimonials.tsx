@@ -9,20 +9,32 @@ export default function Testimonials() {
     {
       quote:
         "The alumni association has been instrumental in fostering unity and giving back to our dear school.",
-      name: "Mrs Akintola Temitope Mary",
+      name: "Akinwatimi Ololade Isaac",
       location: "Akure",
-    },
-    {
-      quote:
-        "Being able to participate in elections and contribute to the association from anywhere in the world is amazing.",
-      name: "Olowojesiku Busayo",
-      location: "South Africa",
     },
     {
       quote:
         "The reunion meeting was a beautiful experience. We are building something great together.",
       name: "Owomoyela O",
       location: "Ibadan",
+    },
+    {
+      quote:
+        "The platform makes it so easy to stay connected and contribute to our alma mater from anywhere.",
+      name: "Ololade Akinwatimi",
+      location: "Ondo",
+    },
+    {
+      quote:
+        "Being able to participate in the election and have a say in our association's leadership is empowering.",
+      name: "Ayodele Oguntimehin",
+      location: "Lagos",
+    },
+    {
+      quote:
+        "I'm grateful for this initiative — it has truly rekindled the bond among our pioneer set.",
+      name: "Osho Sunmisola",
+      location: "Akure",
     },
   ];
 

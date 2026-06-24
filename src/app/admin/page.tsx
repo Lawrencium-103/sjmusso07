@@ -175,7 +175,7 @@ export default function AdminPage() {
       {/* ─── MAIN CONTENT ─── */}
       <div className="flex-1 min-w-0">
         {/* ─── HEADER ─── */}
-        <header className="sticky top-0 z-20 border-b border-gray-200/60 bg-white/80 backdrop-blur-xl shadow-sm">
+        <header className="sticky top-0 z-20 border-b border-gray-200/60 bg-white/95 backdrop-blur-sm shadow-sm">
           <div className="flex items-center justify-between px-4 lg:px-6 py-3">
             <div className="flex items-center gap-3">
               <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100">
