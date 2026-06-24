@@ -124,6 +124,53 @@ export default function AboutPage() {
             </table>
           </div>
         </section>
+
+        <section>
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 border border-amber-200/60 p-8 sm:p-12 shadow-lg">
+            <div className="absolute top-0 right-0 w-40 h-40 bg-brand-gold/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-56 h-56 bg-amber-200/20 rounded-full blur-3xl" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,transparent_30%,rgba(251,191,36,0.03)_100%)]" />
+
+            <div className="relative">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-gold/20 text-brand-gold">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z" />
+                  </svg>
+                </div>
+                <div>
+                  <span className="section-tag inline-block">School Anthem</span>
+                </div>
+              </div>
+
+              <div className="space-y-5 sm:space-y-6">
+                <div className="relative pl-6 border-l-4 border-brand-gold/40">
+                  <p className="text-base sm:text-lg text-gray-700 leading-relaxed italic font-serif">
+                    &ldquo;To the praise, honor, and glory of our dear, great benefactor,
+                  </p>
+                </div>
+                <p className="text-base sm:text-lg text-gray-700 leading-relaxed italic font-serif pl-6">
+                  We raise our beautiful anthem to laud the land of true knowledge.
+                </p>
+                <p className="text-base sm:text-lg text-gray-700 leading-relaxed italic font-serif pl-6">
+                  Raise the anthem, ye O students,
+                </p>
+                <p className="text-base sm:text-lg text-gray-700 leading-relaxed italic font-serif pl-6">
+                  To be echoed by the present.
+                </p>
+                <p className="text-base sm:text-lg text-gray-700 leading-relaxed italic font-serif pl-6">
+                  We will sing the glory of our dear benefactor, St. John/Mary!&rdquo;
+                </p>
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-amber-200/50">
+                <p className="text-xs text-amber-700/60 uppercase tracking-widest font-medium">
+                  — Anthem of Saint John/Mary&apos;s Unity Secondary School, Owo
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </>
   );
