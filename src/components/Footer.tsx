@@ -1,24 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export default function Footer() {
-  const [credit, setCredit] = useState({ text: "Joblin Builder", link: "https://joblin-hx5a.onrender.com/" });
-
-  useEffect(() => {
-    fetch("/api/settings")
-      .then((r) => r.json())
-      .then((data) => {
-        const s = data.settings || {};
-        setCredit({
-          text: s.footer_credit_text || "Joblin Builder",
-          link: s.footer_credit_link || "https://joblin-hx5a.onrender.com/",
-        });
-      })
-      .catch(() => {});
-  }, []);
-
   return (
     <footer className="relative bg-brand-blue text-white overflow-hidden">
       <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_25%,rgba(255,255,255,0.03)_50%,transparent_75%)]" />
@@ -119,12 +103,12 @@ export default function Footer() {
           <p className="text-[10px] text-white/20">
             Built by{" "}
             <a
-              href={credit.link}
+              href="https://joblin-hx5a.onrender.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="underline underline-offset-2 hover:text-white/40 transition-colors"
             >
-              {credit.text}
+              Joblin&apos;s Builder
             </a>
           </p>
         </div>

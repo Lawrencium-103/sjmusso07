@@ -55,8 +55,7 @@ export default function AdminPage() {
   const [editNewsTitle, setEditNewsTitle] = useState("");
   const [editNewsContent, setEditNewsContent] = useState("");
   const [msg, setMsg] = useState({ type: "", text: "" });
-  const [footerCreditText, setFooterCreditText] = useState("");
-  const [footerCreditLink, setFooterCreditLink] = useState("");
+
 
   useEffect(() => {
     fetch("/api/auth/me")
@@ -95,8 +94,7 @@ export default function AdminPage() {
       setVoteResults(votesRes.results || []);
       setTurnout(votesRes.turnout || { voted: 0, total: 0, percentage: 0 });
       setResultsPublished(s.settings?.results_published === "true");
-      setFooterCreditText(s.settings?.footer_credit_text || "Joblin Builder");
-      setFooterCreditLink(s.settings?.footer_credit_link || "https://joblin-hx5a.onrender.com/");
+
     } catch { setMsg({ type: "error", text: "Failed to load data" }); }
     finally { setLoading(false); }
   };
@@ -118,7 +116,7 @@ export default function AdminPage() {
   const handleTogglePaid = async (alumniId: number, year: number, month: number, paid: number) => { try { await fetch("/api/payments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ alumni_id: alumniId, year, month, paid: paid ? 0 : 1 }) }); refreshData(); } catch { setMsg({ type: "error", text: "Failed" }); } };
   const handleConfirmPayment = async (alumniId: number, year: number, month: number) => { try { await fetch("/api/payments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ alumni_id: alumniId, year, month, paid: 1, confirmed: 1 }) }); refreshData(); } catch { setMsg({ type: "error", text: "Failed" }); } };
   const handlePublishResults = async () => { try { const res = await fetch("/api/settings", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ key: "results_published", value: resultsPublished ? "false" : "true" }) }); if (res.ok) { setResultsPublished(!resultsPublished); setMsg({ type: "success", text: resultsPublished ? "Results unpublished" : "Results published to homepage!" }); } } catch { setMsg({ type: "error", text: "Failed" }); } };
-  const handleSaveFooterCredit = async () => { try { await fetch("/api/settings", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ key: "footer_credit_text", value: footerCreditText }) }); await fetch("/api/settings", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ key: "footer_credit_link", value: footerCreditLink }) }); setMsg({ type: "success", text: "Footer credit updated" }); } catch { setMsg({ type: "error", text: "Failed" }); } };
+
   const handleLogout = async () => { await fetch("/api/auth/logout", { method: "POST" }); router.push("/"); };
 
   if (loading) {
@@ -383,22 +381,6 @@ export default function AdminPage() {
                     })}
                   </div>
                 )}
-              </div>
-
-              <div className="rounded-2xl border border-gray-100/80 bg-white p-6 shadow-sm">
-                <h2 className="text-base font-bold text-gray-900 mb-4">Footer Credit</h2>
-                <p className="text-xs text-gray-400 mb-4">Customize the "Built by" text in the site footer.</p>
-                <div className="space-y-3">
-                  <div>
-                    <label className="text-sm font-medium text-gray-700 mb-1 block">Text</label>
-                    <input className="input" value={footerCreditText} onChange={(e) => setFooterCreditText(e.target.value)} placeholder="e.g. Joblin Builder" />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-gray-700 mb-1 block">Link</label>
-                    <input className="input" value={footerCreditLink} onChange={(e) => setFooterCreditLink(e.target.value)} placeholder="https://..." />
-                  </div>
-                  <button onClick={handleSaveFooterCredit} className="btn-primary">Save Footer Credit</button>
-                </div>
               </div>
             </div>
           )}
