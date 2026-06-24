@@ -133,11 +133,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
     }
 
+    const isDefaultPassword = password === "Abc123";
+    if (isDefaultPassword && alumni.must_change_password !== 1) {
+      await db.run(
+        "UPDATE alumni SET must_change_password = 1 WHERE id = $1",
+        [alumni.id]
+      );
+    }
+
     const { token, expiresAt } = await createSession(alumni.id);
     const response = NextResponse.json({
       success: true,
       role: alumni.role,
-      must_change_password: alumni.must_change_password === 1,
+      must_change_password: alumni.must_change_password === 1 || isDefaultPassword,
     });
 
     response.cookies.set("session_token", token, {

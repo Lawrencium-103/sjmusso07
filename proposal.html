@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposal — SJMUSSO '07 Alumni Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page { margin: 0.6in 0.5in; size: A4; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Outfit', 'Segoe UI', system-ui, -apple-system, sans-serif; color: #111; line-height: 1.55; font-size: 10.5pt; }
+  .page { width: 210mm; min-height: 297mm; padding: 20mm 18mm; position: relative; }
+  .page + .page { page-break-before: always; }
+  h1 { font-size: 22pt; font-weight: 800; letter-spacing: -0.02em; color: #054ea4; margin-bottom: 2pt; }
+  h2 { font-size: 13pt; font-weight: 700; color: #054ea4; border-bottom: 2px solid #054ea4; padding-bottom: 4pt; margin: 18pt 0 10pt; }
+  h3 { font-size: 11pt; font-weight: 700; color: #111; margin: 10pt 0 4pt; }
+  .subtitle { font-size: 11pt; color: #555; margin-bottom: 14pt; }
+  .meta { display: flex; justify-content: space-between; margin-bottom: 18pt; font-size: 9.5pt; color: #555; border-bottom: 1px solid #ddd; padding-bottom: 8pt; }
+  p, li { font-size: 10pt; color: #222; }
+  ul { padding-left: 16pt; }
+  li { margin-bottom: 2pt; }
+  table { width: 100%; border-collapse: collapse; margin: 10pt 0; font-size: 9.5pt; }
+  th, td { border: 1px solid #ccc; padding: 6pt 8pt; text-align: left; vertical-align: top; }
+  th { background: #054ea4; color: #fff; font-weight: 600; font-size: 9pt; }
+  tr:nth-child(even) td { background: #f4f6f9; }
+  .amt { text-align: right; white-space: nowrap; font-weight: 600; }
+  .total td { font-weight: 700; background: #e8e9eb !important; border-top: 2px solid #054ea4; }
+  .price-block { background: linear-gradient(135deg, #f4f6f9, #fff); border: 2px solid #054ea4; border-radius: 6pt; padding: 12pt 16pt; margin: 12pt 0; display: flex; justify-content: space-between; align-items: center; }
+  .price-block .orig { font-size: 11pt; }
+  .price-block .orig s { color: #999; }
+  .price-block .disc { font-size: 16pt; font-weight: 800; color: #054ea4; }
+  .price-block .save { font-size: 8.5pt; color: #d52419; font-weight: 600; }
+  .footer-note { position: absolute; bottom: 14mm; left: 18mm; right: 18mm; border-top: 1px solid #ddd; padding-top: 6pt; font-size: 8pt; color: #888; display: flex; justify-content: space-between; }
+  .badge { display: inline-block; background: #054ea4; color: #fff; font-size: 7.5pt; font-weight: 700; padding: 1pt 6pt; border-radius: 3pt; letter-spacing: 0.04em; margin-right: 3pt; }
+  .badge.gold { background: #e7b801; color: #111; }
+  .badge.green { background: #16a34a; }
+  .col-2 { display: flex; gap: 16pt; }
+  .col-2 > div { flex: 1; }
+  @media print { body { zoom: 1; } .page { padding: 0; margin: 0; } }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <h1>SJMUSSO '07 Alumni Platform</h1>
+  <div class="subtitle">Complete Design &amp; Development Proposal</div>
+
+  <div class="meta">
+    <span><strong>Client:</strong> Saint John Mary's Unity Secondary School, Owo — 2007 Alumni Association</span>
+    <span><strong>Date:</strong> June 2026</span>
+  </div>
+
+  <div style="background:#f0f2f5;border-radius:6pt;padding:10pt 14pt;margin-bottom:14pt;display:flex;justify-content:space-between;align-items:center;border-left:4px solid #054ea4;">
+    <div>
+      <div style="font-size:9pt;color:#555;font-weight:600;">Developed by</div>
+      <div style="font-size:11pt;font-weight:700;color:#054ea4;">Lawrence Oladeji</div>
+      <div style="font-size:9pt;color:#555;"><a href="mailto:oladeji.lawrence@gmail.com" style="color:#054ea4;">oladeji.lawrence@gmail.com</a> &bull; <a href="tel:+2349038819790" style="color:#054ea4;">+234 903 881 9790</a></div>
+    </div>
+    <div style="text-align:right;font-size:8pt;color:#888;">
+      Full-stack Developer<br>UI/UX Designer
+    </div>
+  </div>
+
+  <h2>Project Scope</h2>
+  <p>End-to-end design, development, and deployment of a private alumni portal featuring member management, role-based access, a full election/voting system with countdown phases, attendance &amp; payments tracking, news publishing, and an AI-powered Yoruba chatbot assistant with voice I/O.</p>
+
+  <h2>Deliverables</h2>
+  <div class="col-2">
+    <div>
+      <h3>Frontend</h3>
+      <ul>
+        <li>Next.js 15 App Router — 29 routes</li>
+        <li>Responsive mobile-first UI (Tailwind CSS)</li>
+        <li>Premium design system: glass-morphism, staggered animations, brand palette (#054ea4 / #e7b801 / #d52419)</li>
+        <li>Public homepage, auth-gated dashboard &amp; admin panel</li>
+        <li>3-step voting flow with CSS confetti celebration</li>
+        <li>ElectionCountdown with auto 3-phase timer</li>
+        <li>Adunni chatbot — female Yoruba voice, Web Speech API, 18-intent knowledge base, GDPR/NDPR-compliant</li>
+        <li>Mobile horizontal nav on admin &amp; dashboard</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Backend &amp; Infrastructure</h3>
+      <ul>
+        <li>SQLite → Neon (PostgreSQL) migration</li>
+        <li>15 async API routes with $1-placeholder queries</li>
+        <li>Auth system with sessions &amp; role-based guards</li>
+        <li>42 alumni, 7 positions, 21 aspirants, 5 meetings, 9 news, 210 attendance &amp; 252 payment records seeded</li>
+        <li>Public results API with scope-based visibility</li>
+        <li>Vercel serverless deployment (sjmusso07.vercel.app)</li>
+        <li>GitHub version control</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>What Was Done</h2>
+  <table>
+    <thead>
+      <tr><th style="width:4%">#</th><th style="width:50%">Item</th><th style="width:15%">Category</th><th style="width:15%">Status</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Database migration: SQLite → Neon (PostgreSQL) with full async rewrite</td><td>Infrastructure</td><td>Done</td></tr>
+      <tr><td>2</td><td>Vercel deployment &amp; environment configuration</td><td>Infrastructure</td><td>Done</td></tr>
+      <tr><td>3</td><td>Auth system — sessions, login, logout, role-based guards (super_admin / admin / user)</td><td>Backend</td><td>Done</td></tr>
+      <tr><td>4</td><td>42 alumni seeded with default password (Abc123), super admin password change cleared</td><td>Data</td><td>Done</td></tr>
+      <tr><td>5</td><td>Voting portal — 3-step flow (login → ballot → celebrate), password sjmusso-07, one vote per email</td><td>Feature</td><td>Done</td></tr>
+      <tr><td>6</td><td>21 aspirants across 7 positions seeded</td><td>Data</td><td>Done</td></tr>
+      <tr><td>7</td><td>ElectionCountdown — 3-phase component (countdown → voting → results)</td><td>Feature</td><td>Done</td></tr>
+      <tr><td>8</td><td>Dashboard — premium cards, attendance/contributions views, pill-tab navigation</td><td>Frontend</td><td>Done</td></tr>
+      <tr><td>9</td><td>Admin panel — sticky sidebar, gradient stat cards, attendance &amp; payments matrices, vote bars</td><td>Frontend</td><td>Done</td></tr>
+      <tr><td>10</td><td>Homepage — splash screen with bounceIn logo, typewriter motto (2.2s auto-dismiss)</td><td>Frontend</td><td>Done</td></tr>
+      <tr><td>11</td><td>Published election results section on homepage</td><td>Feature</td><td>Done</td></tr>
+      <tr><td>12</td><td>Adunni chatbot — floating button, voice I/O, en-NG locale, female Nigerian voice, emoji-free TTS, 18 intents, zero chat storage</td><td>Feature</td><td>Done</td></tr>
+      <tr><td>13</td><td>News management — create, edit (inline), delete with admin-only access</td><td>Feature</td><td>Done</td></tr>
+      <tr><td>14</td><td>Mobile navigation — horizontal scrollable tabs on admin &amp; dashboard pages</td><td>UX</td><td>Done</td></tr>
+      <tr><td>15</td><td>Coordinator contact info on footer &amp; contact page</td><td>Content</td><td>Done</td></tr>
+      <tr><td>16</td><td>UI polish — Impeccable audit fixes (removed bounce easing, gradient text, gray-on-color, violet tints)</td><td>UX</td><td>Done</td></tr>
+      <tr><td>17</td><td>Unicode fix — Yoruba text rendering across the platform</td><td>Bugfix</td><td>Done</td></tr>
+      <tr><td>18</td><td>AlumniTicker — names marquee for anonymous users (fixed public API)</td><td>Bugfix</td><td>Done</td></tr>
+      <tr><td>19</td><td>CSS-only confetti on vote celebration screen</td><td>Frontend</td><td>Done</td></tr>
+      <tr><td>20</td><td>Background alumni crest SVGs on all pages</td><td>Frontend</td><td>Done</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="page">
+  <h2>Pricing</h2>
+  <table>
+    <thead>
+      <tr><th style="width:4%">#</th><th style="width:52%">Work Package</th><th style="width:20%" class="amt">Original Price (₦)</th><th style="width:20%" class="amt">Discounted Price (₦)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Database architecture &amp; migration (SQLite → Neon PostgreSQL)</td><td class="amt">80,000</td><td class="amt">30,000</td></tr>
+      <tr><td>2</td><td>Authentication system with role-based access (super_admin / admin / user)</td><td class="amt">60,000</td><td class="amt">22,000</td></tr>
+      <tr><td>3</td><td>Voting portal — 3-step flow, ballot UI, one-vote enforcement, election countdown</td><td class="amt">90,000</td><td class="amt">35,000</td></tr>
+      <tr><td>4</td><td>Admin panel — user management, attendance matrix, payments matrix, vote analytics, results publishing</td><td class="amt">70,000</td><td class="amt">27,000</td></tr>
+      <tr><td>5</td><td>Member dashboard — premium UI, attendance/contributions views, news feed</td><td class="amt">50,000</td><td class="amt">19,000</td></tr>
+      <tr><td>6</td><td>Homepage design — splash screen, typewriter motto, published results, news feed, meetings</td><td class="amt">40,000</td><td class="amt">15,000</td></tr>
+      <tr><td>7</td><td>Adunni chatbot — voice I/O, Yoruba identity, 18-intent knowledge base, privacy guardrails</td><td class="amt">60,000</td><td class="amt">25,000</td></tr>
+      <tr><td>8</td><td>News management system — create, inline edit, delete</td><td class="amt">30,000</td><td class="amt">12,000</td></tr>
+      <tr><td>9</td><td>Mobile responsiveness &amp; navigation overhaul (admin sidebar, dashboard tabs, scroll indicators)</td><td class="amt">40,000</td><td class="amt">15,000</td></tr>
+      <tr><td>10</td><td>UI/UX audit &amp; polish — anti-pattern fixes (animations, colors, contrast, typography)</td><td class="amt">30,000</td><td class="amt">12,000</td></tr>
+      <tr><td>11</td><td>Data seeding — 42 alumni, 21 aspirants, 7 positions, meetings, attendance, payments</td><td class="amt">25,000</td><td class="amt">10,000</td></tr>
+      <tr><td>12</td><td>Vercel deployment, environment configuration &amp; domain setup</td><td class="amt">25,000</td><td class="amt">10,000</td></tr>
+    </tbody>
+    <tr class="total"><td colspan="2"><strong>Total</strong></td><td class="amt"><strong>₦600,000</strong></td><td class="amt"><strong>₦232,000</strong></td></tr>
+  </table>
+
+  <div class="price-block">
+    <div class="orig">
+      <div style="font-size:9pt;color:#666;margin-bottom:2pt">Original Fee</div>
+      <s>₦600,000</s>
+      <span style="font-size:8pt;color:#999;margin-left:6pt">(₦500,000 base + ₦100,000 chatbot)</span>
+    </div>
+    <div style="text-align:right">
+      <div class="disc">₦232,000</div>
+      <div class="save">You save ₦368,000 — 61% discount</div>
+    </div>
+  </div>
+
+  <h2>Terms</h2>
+  <table>
+    <tr><td style="width:30%"><strong>Payment</strong></td><td>Full payment of ₦100,000 upon project completion and deployment sign-off</td></tr>
+    <tr><td><strong>Hosting</strong></td><td>Vercel hosting — current free tier covered. Future upgrades to Pro ($20/mo) at client's cost</td></tr>
+    <tr><td><strong>Domain</strong></td><td>Custom domain management by client (currently sjmusso07.vercel.app)</td></tr>
+    <tr><td><strong>Support</strong></td><td>30 days post-deployment bug fixes included. Feature additions billed separately</td></tr>
+    <tr><td><strong>Maintenance</strong></td><td>Optional monthly retainer — ₦25,000/mo for updates, backups &amp; monitoring</td></tr>
+  </table>
+
+  <p style="margin-top:14pt;font-size:9pt;color:#666;text-align:center;font-style:italic">
+    Prepared for Saint John Mary's Unity Secondary School, Owo — 2007 Alumni Association.
+  </p>
+
+  <div style="margin-top:10pt;padding:10pt 14pt;background:#054ea4;color:#fff;border-radius:6pt;text-align:center;">
+    <div style="font-size:8pt;text-transform:uppercase;letter-spacing:0.12em;opacity:0.7;">Project Output</div>
+    <div style="font-size:12pt;font-weight:700;margin-top:2pt;">
+      <a href="https://sjmusso07.vercel.app" target="_blank" style="color:#e7b801;text-decoration:none;">sjmusso07.vercel.app</a>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <span>SJMUSSO '07 Alumni Platform — Proposal</span>
+    <span>June 2026 &bull; Confidential</span>
+  </div>
+</div>
+
+</body>
+</html>
