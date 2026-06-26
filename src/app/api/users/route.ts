@@ -6,7 +6,7 @@ export async function GET() {
   try {
     const db = getDb();
     const rows = await db.all(
-      "SELECT id, name, email, phone_no, gender, location, occupation, role, created_at FROM alumni ORDER BY name"
+      "SELECT id, name, email, phone_no, gender, location, occupation, role, profile_picture, created_at FROM alumni ORDER BY name"
     );
 
     const user = await getCurrentUser();

@@ -6,7 +6,7 @@ import ChangePasswordModal from "@/components/ChangePasswordModal";
 
 interface AlumniUser {
   id: number; name: string; email: string; phone_no: string;
-  gender: string; location: string; occupation: string; role: string; created_at: string;
+  gender: string; location: string; occupation: string; role: string; created_at: string; profile_picture: string;
 }
 interface Meeting { id: number; title: string; description: string; meeting_date: string; }
 interface Position { id: number; title: string; description: string; }
@@ -421,6 +421,7 @@ export default function AdminPage() {
                   <thead>
                     <tr className="border-b border-gray-100 bg-gray-50/50">
                       <th className="px-4 py-3.5 font-semibold text-gray-500 text-[11px] uppercase tracking-wider">#</th>
+                      <th className="px-4 py-3.5 font-semibold text-gray-500 text-[11px] uppercase tracking-wider"></th>
                       <th className="px-4 py-3.5 font-semibold text-gray-500 text-[11px] uppercase tracking-wider">Name</th>
                       <th className="px-4 py-3.5 font-semibold text-gray-500 text-[11px] uppercase tracking-wider">Email</th>
                       <th className="px-4 py-3.5 font-semibold text-gray-500 text-[11px] uppercase tracking-wider">Phone</th>
@@ -433,6 +434,15 @@ export default function AdminPage() {
                     {users.map((u, i) => (
                       <tr key={u.id} className="border-b border-gray-50 transition-colors hover:bg-gray-50/50">
                         <td className="px-4 py-3 text-gray-400 text-xs">{i + 1}</td>
+                        <td className="px-4 py-3">
+                          {u.profile_picture ? (
+                            <img src={u.profile_picture} alt="" className="h-8 w-8 rounded-full object-cover border-2 border-gray-100" />
+                          ) : (
+                            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-brand-blue to-blue-700 flex items-center justify-center text-[10px] font-bold text-white">
+                              {u.name.split(" ").map((w: string) => w[0]).slice(0, 2).join("")}
+                            </div>
+                          )}
+                        </td>
                         <td className="px-4 py-3 font-medium text-gray-800 text-sm">{u.name}</td>
                         <td className="px-4 py-3 text-gray-500 text-sm">{u.email}</td>
                         <td className="px-4 py-3 text-gray-500 text-sm">{u.phone_no || "-"}</td>
