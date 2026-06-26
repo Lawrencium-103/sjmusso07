@@ -11,6 +11,8 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
 
+  const hiddenPaths = ["/dashboard", "/admin", "/settings", "/vote"];
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -23,6 +25,8 @@ export default function Header() {
       .then((d) => setUser(d.user || null))
       .catch(() => setUser(null));
   }, [pathname]);
+
+  if (hiddenPaths.some((p) => pathname.startsWith(p))) return null;
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });

@@ -250,7 +250,7 @@ export default function Home() {
                 opacity: 0,
               }}
             >
-              <StaggerReveal text="Welcome Home, Pioneer Class" />
+              <StaggerReveal text="Welcome Home, Class of 2007" />
             </p>
 
             <p

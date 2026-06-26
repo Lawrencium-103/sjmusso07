@@ -93,7 +93,7 @@ export async function migrate() {
     "SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public'"
   )).map((r: any) => r.tablename);
 
-  if (!tables.includes("alumni")) {
+    if (!tables.includes("alumni")) {
     await d.run(`
       CREATE TABLE alumni (
         id SERIAL PRIMARY KEY,
@@ -117,9 +117,15 @@ export async function migrate() {
         password_hash TEXT,
         must_change_password INTEGER DEFAULT 1,
         security_question TEXT,
-        security_answer TEXT
+        security_answer TEXT,
+        profile_picture TEXT
       )
     `);
+  } else {
+    const cols = await d.all("SELECT column_name FROM information_schema.columns WHERE table_name = 'alumni'");
+    if (!cols.find((c: any) => c.column_name === "profile_picture")) {
+      await d.run("ALTER TABLE alumni ADD COLUMN profile_picture TEXT");
+    }
   }
 
   if (!tables.includes("sessions")) {

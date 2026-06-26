@@ -71,6 +71,8 @@ export interface AlumniUser {
   role: string;
   gender: string;
   location: string;
+  occupation: string;
+  profile_picture: string;
   must_change_password: number;
 }
 
@@ -92,7 +94,7 @@ export async function getCurrentUser(): Promise<AlumniUser | null> {
   }
 
   const user = await db.get(
-    "SELECT id, name, email, phone_no, role, gender, location, must_change_password FROM alumni WHERE id = $1",
+    "SELECT id, name, email, phone_no, role, gender, location, occupation, profile_picture, must_change_password FROM alumni WHERE id = $1",
     [session.alumni_id]
   ) as AlumniUser | undefined;
 

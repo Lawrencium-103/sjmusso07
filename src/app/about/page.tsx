@@ -30,7 +30,7 @@ export default function AboutPage() {
             <p>
               The SJMUSSO &apos;07 Alumni Association is a registered body of
               graduates from Saint John/Mary&apos;s Unity Secondary School, Owo,
-              Ondo State, Nigeria. We are the pioneer set — the 2007 graduating
+              Ondo State, Nigeria. We are the 2007 graduating
               class — bound together by a shared history and a common vision for
               the future of our alma mater.
             </p>
@@ -66,7 +66,7 @@ export default function AboutPage() {
               },
               {
                 title: "Legacy",
-                desc: "To preserve and celebrate the legacy of our pioneer set for future generations of alumni.",
+                desc: "To preserve and celebrate the legacy of our set for future generations of alumni.",
                 icon: "M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25",
               },
               {
@@ -105,7 +105,7 @@ export default function AboutPage() {
                   ["School Name", "Saint John/Mary's Unity Secondary School"],
                   ["Location", "Ikare Road, Owo, Ondo State, Nigeria"],
                   ["Motto", "To Know, To Love, To Serve"],
-                  ["Set", "2007 (Pioneer Set)"],
+                  ["Set", "2007 Graduating Class"],
                   ["Association", "SJMUSSO '07 Alumni Association"],
                 ].map(([label, value], i) => (
                   <tr

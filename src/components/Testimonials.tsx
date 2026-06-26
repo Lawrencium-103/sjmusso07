@@ -8,31 +8,25 @@ export default function Testimonials() {
     },
     {
       quote:
-        "The alumni association has been instrumental in fostering unity and giving back to our dear school.",
-      name: "Akinwatimi Ololade Isaac",
-      location: "Akure",
-    },
-    {
-      quote:
         "The reunion meeting was a beautiful experience. We are building something great together.",
       name: "Owomoyela O",
       location: "Ibadan",
     },
     {
       quote:
-        "The platform makes it so easy to stay connected and contribute to our alma mater from anywhere.",
+        "The alumni association has been instrumental in fostering unity and giving back to our dear school.",
       name: "Ololade Akinwatimi",
-      location: "Ondo",
+      location: "Akure",
     },
     {
       quote:
         "Being able to participate in the election and have a say in our association's leadership is empowering.",
-      name: "Ayodele Oguntimehin",
+      name: "Bayodele Oguntimehin",
       location: "Lagos",
     },
     {
       quote:
-        "I'm grateful for this initiative — it has truly rekindled the bond among our pioneer set.",
+        "I'm grateful for this initiative — it has truly rekindled the bond among our set.",
       name: "Osho Sunmisola",
       location: "Akure",
     },
@@ -49,7 +43,7 @@ export default function Testimonials() {
             What our alumni are saying about the association
           </p>
         </div>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((t, i) => (
             <div
               key={t.name}

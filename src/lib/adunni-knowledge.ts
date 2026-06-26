@@ -56,9 +56,9 @@ const knowledgeBase: KnowledgeItem[] = [
       "Stay in the know, my dear! \ud83d\udcf0\n\nYou can find all the latest news and updates:\n\ud83d\udfe1 On your Dashboard under the 'News' tab\n\ud83d\udfe1 On the homepage as you scroll down\n\nWe've got reunion announcements, election updates, school project news, member spotlights, and more. There's always something happening in our community! \ud83d\ude0a"
   },
   {
-    keywords: ["about school", "about sjmusso", "school history", "saint john", "mary", "unity secondary", "owo", "pioneer set", "2007"],
+    keywords: ["about school", "about sjmusso", "school history", "saint john", "mary", "unity secondary", "owo", "graduating set", "2007"],
     answer:
-      "Ah, our beloved school! Let me tell you about her \u2764\ufe0f\n\nSJMUSSO \u2014 Saint John/Mary's Unity Secondary School, Owo, Ondo State, Nigeria. And we? We are the PIONEER SET, the 2007 graduating class! \ud83c\udf93\ud83c\udffd\n\n\ud83d\udfe1 Motto: 'To Know, To Love, To Serve'\n\ud83d\udfe1 Location: Ikare Road, Owo, Ondo State\n\ud83d\udfe1 Set: 2007 \u2014 the very first!\n\n\u00c8gb\u00e9 wa \u00f2w\u00f2! \u00c0wa ni! We are the pioneers, the trailblazers. Our bond is strong because we started this journey together. Let's keep building our legacy! \ud83d\udc9b"
+      "Ah, our beloved school! Let me tell you about her \u2764\ufe0f\n\nSJMUSSO \u2014 Saint John/Mary's Unity Secondary School, Owo, Ondo State, Nigeria. And we? We are the 2007 graduating class! \ud83c\udf93\ud83c\udffd\n\n\ud83d\udfe1 Motto: 'To Know, To Love, To Serve'\n\ud83d\udfe1 Location: Ikare Road, Owo, Ondo State\n\ud83d\udfe1 Set: 2007\n\n\u00c8gb\u00e9 wa \u00f2w\u00f2! \u00c0wa ni! Our bond is strong. Let's keep building our legacy! \ud83d\udc9b"
   },
   {
     keywords: ["contact", "email", "phone", "reach", "admin", "support", "coordinator"],
