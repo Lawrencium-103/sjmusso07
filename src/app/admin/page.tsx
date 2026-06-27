@@ -366,7 +366,7 @@ const [drilldownLoading, setDrilldownLoading] = useState(false);
                                   </div>
                                   <div className="flex items-center gap-2 shrink-0">
                                     <div className="w-16 sm:w-24 h-2 rounded-full bg-gray-100 overflow-hidden">
-                                      <div className={`h-full rounded-full transition-all duration-700 ${isWinner ? "bg-gradient-to-r from-brand-blue to-blue-600" : "bg-gray-300"}`} style={{ width: maxVotes > 0 ? `${(r.votes / maxVotes) * 100}%` : 0 }} />
+                                      <div className={`h-full rounded-full transition-all duration-700 ${isWinner ? "bg-gradient-to-r from-brand-blue to-blue-600" : "bg-brand-blue/20"}`} style={{ width: maxVotes > 0 ? `${(r.votes / maxVotes) * 100}%` : 0 }} />
                                     </div>
                                     <span className="text-xs font-bold text-gray-700 w-6 text-right">{r.votes}</span>
                                   </div>
