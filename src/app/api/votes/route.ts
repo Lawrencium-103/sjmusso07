@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
        FROM votes v
        JOIN positions p ON v.position_id = p.id
        JOIN aspirants a ON v.aspirant_id = a.id
-       GROUP BY v.position_id, v.aspirant_id
+       GROUP BY v.position_id, v.aspirant_id, p.title, a.name
        ORDER BY v.position_id, votes DESC`
     );
 
