@@ -425,25 +425,39 @@ export default function Home() {
                 return positions.map((pos) => {
                   const posResults = voteResults.filter((r) => r.position_id === pos.id);
                   const maxVotes = Math.max(...posResults.map((r) => r.votes));
+                  const totalPosVotes = posResults.reduce((s, r) => s + r.votes, 0);
+                  const winner = posResults.find((r) => r.votes === maxVotes);
                   return (
                     <FadeInSection key={pos.id}>
-                      <div className="card p-5">
-                        <h3 className="text-sm font-bold text-brand-blue mb-3">{pos.title}</h3>
+                      <div className="card p-5 overflow-hidden">
+                        <div className="flex items-center justify-between mb-4">
+                          <h3 className="text-sm font-bold text-brand-blue">{pos.title}</h3>
+                          <span className="text-[10px] text-gray-400 font-medium">{totalPosVotes} votes</span>
+                        </div>
                         <div className="space-y-2">
-                          {posResults.map((r) => (
-                            <div key={r.aspirant_id} className="flex items-center justify-between gap-2">
-                              <span className="text-sm text-gray-600 truncate">{r.aspirant_name}</span>
-                              <div className="flex items-center gap-2">
-                                <div className="w-24 h-2 rounded-full bg-gray-100 overflow-hidden">
-                                  <div
-                                    className={`h-full rounded-full ${r.votes === maxVotes && maxVotes > 0 ? "bg-brand-gold" : "bg-brand-blue/40"}`}
-                                    style={{ width: `${(r.votes / maxVotes) * 100}%` }}
-                                  />
+                          {posResults.map((r) => {
+                            const pct = totalPosVotes > 0 ? Math.round((r.votes / totalPosVotes) * 100) : 0;
+                            const isWinner = r.votes === maxVotes && maxVotes > 0;
+                            return (
+                              <div key={r.aspirant_id} className={`flex items-center justify-between gap-2 rounded-lg p-2 ${isWinner ? "bg-amber-50/50 border border-amber-100" : ""}`}>
+                                <div className="flex items-center gap-2 min-w-0 flex-1">
+                                  {isWinner && (
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 shrink-0 text-amber-500">
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0" />
+                                    </svg>
+                                  )}
+                                  <span className={`text-sm truncate ${isWinner ? "font-bold text-gray-900" : "text-gray-600"}`}>{r.aspirant_name}</span>
                                 </div>
-                                <span className="text-xs font-medium text-gray-700 w-5 text-right">{r.votes}</span>
+                                <div className="flex items-center gap-2 shrink-0">
+                                  <div className="w-20 h-1.5 rounded-full bg-gray-100 overflow-hidden">
+                                    <div className={`h-full rounded-full ${isWinner ? "bg-brand-gold" : "bg-brand-blue/40"}`} style={{ width: maxVotes > 0 ? `${(r.votes / maxVotes) * 100}%` : 0 }} />
+                                  </div>
+                                  <span className="text-xs font-bold text-gray-700 w-5 text-right">{r.votes}</span>
+                                  <span className="text-[10px] text-gray-400 w-7 text-right">{pct}%</span>
+                                </div>
                               </div>
-                            </div>
-                          ))}
+                            );
+                          })}
                         </div>
                       </div>
                     </FadeInSection>

@@ -324,29 +324,55 @@ const [drilldownLoading, setDrilldownLoading] = useState(false);
                     <p className="text-sm text-gray-400">No votes have been cast yet.</p>
                   </div>
                 ) : (
-                  <div className="space-y-6">
+                  <div className="grid gap-4 md:grid-cols-2">
                     {positions.map((pos) => {
                       const posResults = voteResults.filter((r) => r.position_id === pos.id);
                       if (posResults.length === 0) return null;
                       const maxVotes = Math.max(...posResults.map((r) => r.votes));
+                      const totalPosVotes = posResults.reduce((s, r) => s + r.votes, 0);
+                      const winner = posResults.find((r) => r.votes === maxVotes);
                       return (
-                        <div key={pos.id}>
-                          <div className="flex items-center justify-between mb-2">
-                            <h3 className="text-sm font-semibold text-gray-800">{pos.title}</h3>
-                            <span className="text-[10px] text-gray-400 font-medium">{posResults.reduce((s, r) => s + r.votes, 0)} votes</span>
+                        <div key={pos.id} className="rounded-2xl border border-gray-100/80 bg-white shadow-sm overflow-hidden">
+                          <div className="flex items-center justify-between bg-gradient-to-r from-gray-50 to-white border-b border-gray-100 px-5 py-3.5">
+                            <div className="flex items-center gap-2">
+                              <h3 className="text-sm font-bold text-gray-800">{pos.title}</h3>
+                              {winner && (
+                                <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 border border-amber-200 px-2 py-0.5 text-[10px] font-bold text-amber-700">
+                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3 h-3">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0" />
+                                  </svg>
+                                  Winner
+                                </span>
+                              )}
+                            </div>
+                            <span className="text-[11px] text-gray-400 font-medium">{totalPosVotes} votes</span>
                           </div>
-                          <div className="space-y-1.5">
-                            {posResults.map((r) => (
-                              <div key={r.aspirant_id} className="flex items-center gap-3">
-                                <span className="w-32 sm:w-44 text-sm text-gray-600 truncate">{r.aspirant_name}</span>
-                                <div className="flex-1">
-                                  <div className="h-6 w-full rounded-lg bg-gray-100 overflow-hidden">
-                                    <div className={`h-full rounded-lg transition-all duration-700 ${r.votes === maxVotes && maxVotes > 0 ? "bg-gradient-to-r from-brand-blue to-blue-600" : "bg-gradient-to-r from-gray-300 to-gray-400"}`} style={{ width: maxVotes > 0 ? `${(r.votes / maxVotes) * 100}%` : 0 }} />
+                          <div className="px-5 py-4">
+                            {posResults.map((r, idx) => {
+                              const isWinner = r.votes === maxVotes && maxVotes > 0;
+                              return (
+                                <div key={r.aspirant_id} className={`flex items-center gap-3 py-2 ${idx < posResults.length - 1 ? "border-b border-gray-50" : ""}`}>
+                                  <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ${isWinner ? "bg-brand-blue text-white shadow-sm" : "bg-gray-100 text-gray-500"}`}>
+                                    {isWinner ? (
+                                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0" />
+                                      </svg>
+                                    ) : (
+                                      <span>{idx + 1}</span>
+                                    )}
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <p className={`text-sm truncate ${isWinner ? "font-bold text-gray-900" : "font-medium text-gray-600"}`}>{r.aspirant_name}</p>
+                                  </div>
+                                  <div className="flex items-center gap-2 shrink-0">
+                                    <div className="w-16 sm:w-24 h-2 rounded-full bg-gray-100 overflow-hidden">
+                                      <div className={`h-full rounded-full transition-all duration-700 ${isWinner ? "bg-gradient-to-r from-brand-blue to-blue-600" : "bg-gray-300"}`} style={{ width: maxVotes > 0 ? `${(r.votes / maxVotes) * 100}%` : 0 }} />
+                                    </div>
+                                    <span className="text-xs font-bold text-gray-700 w-6 text-right">{r.votes}</span>
                                   </div>
                                 </div>
-                                <span className="w-8 text-right text-sm font-bold text-gray-800">{r.votes}</span>
-                              </div>
-                            ))}
+                              );
+                            })}
                           </div>
                         </div>
                       );
@@ -391,46 +417,79 @@ const [drilldownLoading, setDrilldownLoading] = useState(false);
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-gray-100/80 bg-white p-6 shadow-sm">
-                <h2 className="text-base font-bold text-gray-900 mb-5">Results by Position</h2>
+              <div className="space-y-4">
+                <h2 className="text-base font-bold text-gray-900">Results by Position</h2>
                 {voteResults.length === 0 ? (
-                  <div className="flex flex-col items-center py-12 text-center">
-                    <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-100">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-7 h-7 text-gray-300">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
+                  <div className="rounded-2xl border border-gray-100/80 bg-white p-6 shadow-sm">
+                    <div className="flex flex-col items-center py-12 text-center">
+                      <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-7 h-7 text-gray-300">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <p className="text-sm text-gray-400">No votes have been cast yet.</p>
                     </div>
-                    <p className="text-sm text-gray-400">No votes have been cast yet.</p>
                   </div>
                 ) : (
-                  <div className="space-y-6">
+                  <div className="grid gap-4 md:grid-cols-2">
                     {positions.map((pos) => {
                       const posResults = voteResults.filter((r) => r.position_id === pos.id);
                       if (posResults.length === 0) return null;
                       const maxVotes = Math.max(...posResults.map((r) => r.votes));
+                      const totalPosVotes = posResults.reduce((s, r) => s + r.votes, 0);
+                      const winner = posResults.find((r) => r.votes === maxVotes);
                       return (
-                        <div key={pos.id}>
-                          <div className="flex items-center justify-between mb-2">
-                            <h3 className="text-sm font-semibold text-gray-800">{pos.title}</h3>
-                            <button onClick={() => fetchDrilldown(pos)} className="text-[11px] font-medium text-brand-blue hover:text-blue-700 transition-colors flex items-center gap-1">
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3.5 h-3.5">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.25a1.444 1.444 0 000 1.5c.256.373.646.65 1.101.775l.394.117a1.444 1.444 0 01.902 1.008l.033.133c.034.136.08.27.138.4.168.38.467.688.838.859l.11.05a1.444 1.444 0 011.051 1.391v.098c0 .41.177.78.46 1.035.285.257.677.38 1.068.34l.119-.012a1.444 1.444 0 011.286.797l.055.101c.175.322.477.559.832.653.355.094.73.054 1.054-.112l.096-.05a1.444 1.444 0 011.35.028l.097.054c.323.18.698.222 1.056.1.358-.122.648-.372.799-.712l.048-.106a1.444 1.444 0 011.272-.834l.112.001c.41-.004.79-.158 1.07-.413.28-.256.463-.62.463-1.031v-.046c0-.409.178-.783.465-1.038.287-.254.68-.396 1.08-.364l.147.013a1.444 1.444 0 001.323-.907c.144-.333.121-.71-.064-1.022l-.052-.088a1.444 1.444 0 01-.264-1.195l.016-.068c.062-.268.053-.55-.027-.82-.08-.27-.224-.518-.419-.718l-.064-.065a1.444 1.444 0 01-.395-1.122l.007-.07a1.444 1.444 0 00-.268-1.141c-.266-.36-.671-.586-1.119-.624l-.12-.01a1.444 1.444 0 01-.986-.52l-.06-.073a1.444 1.444 0 00-1.168-.567l-.099.005a1.444 1.444 0 01-.986-.336l-.074-.068a1.444 1.444 0 00-1.074-.418l-.083.007a1.444 1.444 0 01-1.077-.378l-.07-.063a1.444 1.444 0 00-1.077-.418l-.085.007a1.444 1.444 0 01-1.053-.407l-.06-.06a1.444 1.444 0 00-1.106-.503l-.095.009a1.444 1.444 0 01-.996-.406l-.045-.043a1.444 1.444 0 00-1.113-.51l-.096.012a1.444 1.444 0 01-.953-.472l-.032-.034a1.444 1.444 0 00-1.114-.557l-.097.015a1.444 1.444 0 01-.97-.535l-.021-.025a1.444 1.444 0 00-1.125-.602l-.097.019a1.444 1.444 0 01-1.05-.609l-.013-.018a1.444 1.444 0 00-1.154-.65l-.097.023a1.444 1.444 0 01-1.025-.547l-1.5-1.878a1.202 1.202 0 01-.188-.31m16.5-8.25c0-2.07-1.35-3.83-3.23-4.46-.75-.25-1.53-.34-2.29-.31-1.17.05-2.29.46-3.17 1.17-.89.72-1.51 1.71-1.79 2.82" />
-                              </svg>
-                              View Details
-                            </button>
+                        <div key={pos.id} className="rounded-2xl border border-gray-100/80 bg-white shadow-sm overflow-hidden">
+                          <div className="flex items-center justify-between bg-gradient-to-r from-gray-50 to-white border-b border-gray-100 px-5 py-3.5">
+                            <div className="flex items-center gap-2">
+                              <h3 className="text-sm font-bold text-gray-800">{pos.title}</h3>
+                              {winner && (
+                                <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 border border-amber-200 px-2 py-0.5 text-[10px] font-bold text-amber-700">
+                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3 h-3">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0" />
+                                  </svg>
+                                  Winner
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-[11px] text-gray-400 font-medium">{totalPosVotes} votes</span>
+                              <button onClick={() => fetchDrilldown(pos)} className="text-[11px] font-medium text-brand-blue hover:text-blue-700 transition-colors flex items-center gap-0.5" title="View voter breakdown">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3.5 h-3.5">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.25a1.444 1.444 0 000 1.5c.256.373.646.65 1.101.775l.394.117a1.444 1.444 0 01.902 1.008l.033.133c.034.136.08.27.138.4.168.38.467.688.838.859l.11.05a1.444 1.444 0 011.051 1.391v.098c0 .41.177.78.46 1.035.285.257.677.38 1.068.34l.119-.012a1.444 1.444 0 011.286.797l.055.101c.175.322.477.559.832.653.355.094.73.054 1.054-.112l.096-.05a1.444 1.444 0 011.35.028l.097.054c.323.18.698.222 1.056.1.358-.122.648-.372.799-.712l.048-.106a1.444 1.444 0 011.272-.834l.112.001c.41-.004.79-.158 1.07-.413.28-.256.463-.62.463-1.031v-.046c0-.409.178-.783.465-1.038.287-.254.68-.396 1.08-.364l.147.013a1.444 1.444 0 001.323-.907c.144-.333.121-.71-.064-1.022l-.052-.088a1.444 1.444 0 01-.264-1.195l.016-.068c.062-.268.053-.55-.027-.82-.08-.27-.224-.518-.419-.718l-.064-.065a1.444 1.444 0 01-.395-1.122l.007-.07a1.444 1.444 0 00-.268-1.141c-.266-.36-.671-.586-1.119-.624l-.12-.01a1.444 1.444 0 01-.986-.52l-.06-.073a1.444 1.444 0 00-1.168-.567l-.099.005a1.444 1.444 0 01-.986-.336l-.074-.068a1.444 1.444 0 00-1.074-.418l-.083.007a1.444 1.444 0 01-1.077-.378l-.07-.063a1.444 1.444 0 00-1.077-.418l-.085.007a1.444 1.444 0 01-1.053-.407l-.06-.06a1.444 1.444 0 00-1.106-.503l-.095.009a1.444 1.444 0 01-.996-.406l-.045-.043a1.444 1.444 0 00-1.113-.51l-.096.012a1.444 1.444 0 01-.953-.472l-.032-.034a1.444 1.444 0 00-1.114-.557l-.097.015a1.444 1.444 0 01-.97-.535l-.021-.025a1.444 1.444 0 00-1.125-.602l-.097.019a1.444 1.444 0 01-1.05-.609l-.013-.018a1.444 1.444 0 00-1.154-.65l-.097.023a1.444 1.444 0 01-1.025-.547l-1.5-1.878a1.202 1.202 0 01-.188-.31m16.5-8.25c0-2.07-1.35-3.83-3.23-4.46-.75-.25-1.53-.34-2.29-.31-1.17.05-2.29.46-3.17 1.17-.89.72-1.51 1.71-1.79 2.82" />
+                                </svg>
+                                Details
+                              </button>
+                            </div>
                           </div>
-                          <div className="space-y-1.5">
-                            {posResults.map((r) => (
-                              <div key={r.aspirant_id} className="flex items-center gap-3">
-                                <span className="w-32 sm:w-44 text-sm text-gray-600 truncate">{r.aspirant_name}</span>
-                                <div className="flex-1">
-                                  <div className="h-6 w-full rounded-lg bg-gray-100 overflow-hidden">
-                                    <div className={`h-full rounded-lg transition-all duration-700 ${r.votes === maxVotes && maxVotes > 0 ? "bg-gradient-to-r from-green-500 to-emerald-600" : "bg-gradient-to-r from-gray-300 to-gray-400"}`} style={{ width: maxVotes > 0 ? `${(r.votes / maxVotes) * 100}%` : 0 }} />
+                          <div className="px-5 py-4">
+                            {posResults.map((r, idx) => {
+                              const pct = totalPosVotes > 0 ? Math.round((r.votes / totalPosVotes) * 100) : 0;
+                              const isWinner = r.votes === maxVotes && maxVotes > 0;
+                              return (
+                                <div key={r.aspirant_id} className={`flex items-center gap-3 py-2 ${idx < posResults.length - 1 ? "border-b border-gray-50" : ""}`}>
+                                  <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ${isWinner ? "bg-amber-50 text-amber-700 ring-2 ring-amber-300" : "bg-gray-100 text-gray-500"}`}>
+                                    {isWinner ? (
+                                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0" />
+                                      </svg>
+                                    ) : (
+                                      <span>{idx + 1}</span>
+                                    )}
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <p className={`text-sm truncate ${isWinner ? "font-bold text-gray-900" : "font-medium text-gray-600"}`}>{r.aspirant_name}</p>
+                                  </div>
+                                  <div className="flex items-center gap-3 shrink-0">
+                                    <div className="w-20 sm:w-28 h-2 rounded-full bg-gray-100 overflow-hidden">
+                                      <div className={`h-full rounded-full transition-all duration-700 ${isWinner ? "bg-gradient-to-r from-amber-400 to-amber-500" : "bg-brand-blue/30"}`} style={{ width: maxVotes > 0 ? `${(r.votes / maxVotes) * 100}%` : 0 }} />
+                                    </div>
+                                    <span className="text-xs font-bold text-gray-700 w-6 text-right">{r.votes}</span>
+                                    <span className="text-[10px] text-gray-400 w-8 text-right">{pct}%</span>
                                   </div>
                                 </div>
-                                <span className="w-8 text-right text-sm font-bold text-gray-800">{r.votes}</span>
-                              </div>
-                            ))}
+                              );
+                            })}
                           </div>
                         </div>
                       );
