@@ -118,13 +118,17 @@ export async function migrate() {
         must_change_password INTEGER DEFAULT 1,
         security_question TEXT,
         security_answer TEXT,
-        profile_picture TEXT
+        profile_picture TEXT,
+        is_seeded BOOLEAN DEFAULT FALSE
       )
     `);
   } else {
     const cols = await d.all("SELECT column_name FROM information_schema.columns WHERE table_name = 'alumni'");
     if (!cols.find((c: any) => c.column_name === "profile_picture")) {
       await d.run("ALTER TABLE alumni ADD COLUMN profile_picture TEXT");
+    }
+    if (!cols.find((c: any) => c.column_name === "is_seeded")) {
+      await d.run("ALTER TABLE alumni ADD COLUMN is_seeded BOOLEAN DEFAULT FALSE");
     }
   }
 

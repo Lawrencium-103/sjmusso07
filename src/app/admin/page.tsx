@@ -55,7 +55,9 @@ export default function AdminPage() {
   const [editNewsTitle, setEditNewsTitle] = useState("");
   const [editNewsContent, setEditNewsContent] = useState("");
   const [msg, setMsg] = useState({ type: "", text: "" });
-
+const [drilldownPosition, setDrilldownPosition] = useState<Position | null>(null);
+const [drilldownData, setDrilldownData] = useState<{ aspirant_name: string; votes: number; voters: { name: string; email: string; is_registered: boolean }[] }[]>([]);
+const [drilldownLoading, setDrilldownLoading] = useState(false);
 
   useEffect(() => {
     fetch("/api/auth/me")
@@ -116,6 +118,27 @@ export default function AdminPage() {
   const handleTogglePaid = async (alumniId: number, year: number, month: number, paid: number) => { try { await fetch("/api/payments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ alumni_id: alumniId, year, month, paid: paid ? 0 : 1 }) }); refreshData(); } catch { setMsg({ type: "error", text: "Failed" }); } };
   const handleConfirmPayment = async (alumniId: number, year: number, month: number) => { try { await fetch("/api/payments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ alumni_id: alumniId, year, month, paid: 1, confirmed: 1 }) }); refreshData(); } catch { setMsg({ type: "error", text: "Failed" }); } };
   const handlePublishResults = async () => { try { const res = await fetch("/api/settings", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ key: "results_published", value: resultsPublished ? "false" : "true" }) }); if (res.ok) { setResultsPublished(!resultsPublished); setMsg({ type: "success", text: resultsPublished ? "Results unpublished" : "Results published to homepage!" }); } } catch { setMsg({ type: "error", text: "Failed" }); } };
+
+  const fetchDrilldown = async (pos: Position) => {
+    setDrilldownPosition(pos);
+    setDrilldownLoading(true);
+    setDrilldownData([]);
+    try {
+      const res = await fetch(`/api/votes?scope=drilldown&position_id=${pos.id}`);
+      const data = await res.json();
+      if (res.ok) {
+        setDrilldownData(data.aspirants || []);
+      } else {
+        setMsg({ type: "error", text: data.error || "Failed to load drilldown" });
+        setDrilldownPosition(null);
+      }
+    } catch {
+      setMsg({ type: "error", text: "Network error" });
+      setDrilldownPosition(null);
+    } finally {
+      setDrilldownLoading(false);
+    }
+  };
 
   const handleLogout = async () => { await fetch("/api/auth/logout", { method: "POST" }); router.push("/"); };
 
@@ -387,7 +410,15 @@ export default function AdminPage() {
                       const maxVotes = Math.max(...posResults.map((r) => r.votes));
                       return (
                         <div key={pos.id}>
-                          <h3 className="text-sm font-semibold text-gray-800 mb-2">{pos.title}</h3>
+                          <div className="flex items-center justify-between mb-2">
+                            <h3 className="text-sm font-semibold text-gray-800">{pos.title}</h3>
+                            <button onClick={() => fetchDrilldown(pos)} className="text-[11px] font-medium text-brand-blue hover:text-blue-700 transition-colors flex items-center gap-1">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3.5 h-3.5">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.25a1.444 1.444 0 000 1.5c.256.373.646.65 1.101.775l.394.117a1.444 1.444 0 01.902 1.008l.033.133c.034.136.08.27.138.4.168.38.467.688.838.859l.11.05a1.444 1.444 0 011.051 1.391v.098c0 .41.177.78.46 1.035.285.257.677.38 1.068.34l.119-.012a1.444 1.444 0 011.286.797l.055.101c.175.322.477.559.832.653.355.094.73.054 1.054-.112l.096-.05a1.444 1.444 0 011.35.028l.097.054c.323.18.698.222 1.056.1.358-.122.648-.372.799-.712l.048-.106a1.444 1.444 0 011.272-.834l.112.001c.41-.004.79-.158 1.07-.413.28-.256.463-.62.463-1.031v-.046c0-.409.178-.783.465-1.038.287-.254.68-.396 1.08-.364l.147.013a1.444 1.444 0 001.323-.907c.144-.333.121-.71-.064-1.022l-.052-.088a1.444 1.444 0 01-.264-1.195l.016-.068c.062-.268.053-.55-.027-.82-.08-.27-.224-.518-.419-.718l-.064-.065a1.444 1.444 0 01-.395-1.122l.007-.07a1.444 1.444 0 00-.268-1.141c-.266-.36-.671-.586-1.119-.624l-.12-.01a1.444 1.444 0 01-.986-.52l-.06-.073a1.444 1.444 0 00-1.168-.567l-.099.005a1.444 1.444 0 01-.986-.336l-.074-.068a1.444 1.444 0 00-1.074-.418l-.083.007a1.444 1.444 0 01-1.077-.378l-.07-.063a1.444 1.444 0 00-1.077-.418l-.085.007a1.444 1.444 0 01-1.053-.407l-.06-.06a1.444 1.444 0 00-1.106-.503l-.095.009a1.444 1.444 0 01-.996-.406l-.045-.043a1.444 1.444 0 00-1.113-.51l-.096.012a1.444 1.444 0 01-.953-.472l-.032-.034a1.444 1.444 0 00-1.114-.557l-.097.015a1.444 1.444 0 01-.97-.535l-.021-.025a1.444 1.444 0 00-1.125-.602l-.097.019a1.444 1.444 0 01-1.05-.609l-.013-.018a1.444 1.444 0 00-1.154-.65l-.097.023a1.444 1.444 0 01-1.025-.547l-1.5-1.878a1.202 1.202 0 01-.188-.31m16.5-8.25c0-2.07-1.35-3.83-3.23-4.46-.75-.25-1.53-.34-2.29-.31-1.17.05-2.29.46-3.17 1.17-.89.72-1.51 1.71-1.79 2.82" />
+                              </svg>
+                              View Details
+                            </button>
+                          </div>
                           <div className="space-y-1.5">
                             {posResults.map((r) => (
                               <div key={r.aspirant_id} className="flex items-center gap-3">
@@ -733,6 +764,84 @@ export default function AdminPage() {
           )}
         </div>
       </div>
+
+      {/* ─── DRILL-DOWN MODAL ─── */}
+      {drilldownPosition && (
+        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 backdrop-blur-sm pt-10 pb-10" onClick={() => setDrilldownPosition(null)}>
+          <div className="relative w-full max-w-2xl mx-4 rounded-2xl bg-white shadow-2xl border border-gray-200" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
+              <div>
+                <h2 className="text-lg font-bold text-gray-900">{drilldownPosition.title}</h2>
+                <p className="text-xs text-gray-400 mt-0.5">Voter breakdown by candidate</p>
+              </div>
+              <button onClick={() => setDrilldownPosition(null)} className="p-2 rounded-xl text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="px-6 py-5 max-h-[70vh] overflow-y-auto">
+              {drilldownLoading ? (
+                <div className="flex items-center justify-center py-16">
+                  <div className="h-8 w-8 rounded-full border-[3px] border-brand-blue/10 border-t-brand-blue animate-spin" />
+                </div>
+              ) : drilldownData.length === 0 ? (
+                <div className="flex flex-col items-center py-12 text-center">
+                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6 text-gray-300">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <p className="text-sm text-gray-400">No data available for this position.</p>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {drilldownData.map((asp) => (
+                    <div key={asp.aspirant_name} className="rounded-xl border border-gray-100 bg-gray-50/50 overflow-hidden">
+                      <div className="flex items-center justify-between bg-white border-b border-gray-100 px-4 py-3">
+                        <span className="text-sm font-semibold text-gray-800">{asp.aspirant_name}</span>
+                        <span className="inline-flex items-center gap-1 rounded-full bg-brand-blue/10 px-3 py-1 text-[11px] font-bold text-brand-blue">
+                          {asp.votes} {asp.votes === 1 ? "vote" : "votes"}
+                        </span>
+                      </div>
+                      <div className="divide-y divide-gray-100">
+                        {asp.voters.map((v, i) => (
+                          <div key={i} className="flex items-center justify-between px-4 py-2.5">
+                            <div className="flex items-center gap-3 min-w-0">
+                              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand-blue to-blue-700 text-[9px] font-bold text-white">
+                                {v.name.split(" ").map((w: string) => w[0]).slice(0, 2).join("")}
+                              </div>
+                              <div className="min-w-0">
+                                <p className="text-sm font-medium text-gray-800 truncate">{v.name}</p>
+                                <p className="text-[11px] text-gray-400 truncate">{v.email}</p>
+                              </div>
+                            </div>
+                            <span className={`shrink-0 inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${
+                              v.is_registered
+                                ? "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200"
+                                : "bg-amber-50 text-amber-700 ring-1 ring-amber-200"
+                            }`}>
+                              {v.is_registered ? "Registered" : "Not Registered"}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="border-t border-gray-100 px-6 py-3 flex items-center justify-between">
+              <span className="text-[11px] text-gray-400">
+                {drilldownData.reduce((s, a) => s + a.voters.length, 0)} total votes
+              </span>
+              <button onClick={() => setDrilldownPosition(null)} className="text-xs font-medium text-gray-500 hover:text-gray-700 transition-colors px-4 py-1.5 rounded-lg hover:bg-gray-100">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <ChangePasswordModal show={showPasswordModal} onClose={() => setShowPasswordModal(false)} />
     </div>

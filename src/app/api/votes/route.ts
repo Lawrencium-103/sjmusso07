@@ -34,6 +34,40 @@ export async function GET(req: NextRequest) {
        ORDER BY v.position_id, votes DESC`
     );
 
+    if (scope === "drilldown") {
+      const user = await getCurrentUser();
+      if (!user || (user.role !== "super_admin" && user.role !== "admin")) {
+        return NextResponse.json({ error: "Not authorized" }, { status: 403 });
+      }
+      const positionId = url.searchParams.get("position_id");
+      if (!positionId) {
+        return NextResponse.json({ error: "position_id is required" }, { status: 400 });
+      }
+      const position = await db.get("SELECT id, title FROM positions WHERE id = $1", [positionId]) as any;
+      if (!position) {
+        return NextResponse.json({ error: "Position not found" }, { status: 404 });
+      }
+      const voters = await db.all(
+        `SELECT v.aspirant_id, a.name as aspirant_name, al.name as voter_name,
+                al.email as voter_email, al.is_seeded as is_registered
+         FROM votes v
+         JOIN aspirants a ON v.aspirant_id = a.id
+         JOIN alumni al ON v.alumni_id = al.id
+         WHERE v.position_id = $1
+         ORDER BY v.aspirant_id, al.name`,
+        [positionId]
+      );
+      const grouped: Record<number, { aspirant_name: string; votes: number; voters: { name: string; email: string; is_registered: boolean }[] }> = {};
+      for (const v of voters) {
+        if (!grouped[v.aspirant_id]) {
+          grouped[v.aspirant_id] = { aspirant_name: v.aspirant_name, votes: 0, voters: [] };
+        }
+        grouped[v.aspirant_id].votes++;
+        grouped[v.aspirant_id].voters.push({ name: v.voter_name, email: v.voter_email, is_registered: v.is_registered });
+      }
+      return NextResponse.json({ position, aspirants: Object.values(grouped) });
+    }
+
     if (scope === "public" || scope === "analytics") {
       if (scope === "analytics") {
         const user = await getCurrentUser();
