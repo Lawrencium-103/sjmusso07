@@ -328,9 +328,10 @@ const [drilldownLoading, setDrilldownLoading] = useState(false);
                     {positions.map((pos) => {
                       const posResults = voteResults.filter((r) => r.position_id === pos.id);
                       if (posResults.length === 0) return null;
-                      const maxVotes = Math.max(...posResults.map((r) => r.votes));
-                      const totalPosVotes = posResults.reduce((s, r) => s + r.votes, 0);
-                      const winner = posResults.find((r) => r.votes === maxVotes);
+                      const posVotesNum = posResults.map((r) => ({ ...r, votes: Number(r.votes) }));
+                      const maxVotes = Math.max(...posVotesNum.map((r) => r.votes));
+                      const totalPosVotes = posVotesNum.reduce((s, r) => s + r.votes, 0);
+                      const winner = posVotesNum.find((r) => r.votes === maxVotes);
                       return (
                         <div key={pos.id} className="rounded-2xl border border-gray-100/80 bg-white shadow-sm overflow-hidden">
                           <div className="flex items-center justify-between bg-gradient-to-r from-gray-50 to-white border-b border-gray-100 px-5 py-3.5">
@@ -348,7 +349,7 @@ const [drilldownLoading, setDrilldownLoading] = useState(false);
                             <span className="text-[11px] text-gray-400 font-medium">{totalPosVotes} votes</span>
                           </div>
                           <div className="px-5 py-4">
-                            {posResults.map((r, idx) => {
+                            {posVotesNum.map((r, idx) => {
                               const isWinner = r.votes === maxVotes && maxVotes > 0;
                               return (
                                 <div key={r.aspirant_id} className={`flex items-center gap-3 py-2 ${idx < posResults.length - 1 ? "border-b border-gray-50" : ""}`}>
@@ -435,9 +436,10 @@ const [drilldownLoading, setDrilldownLoading] = useState(false);
                     {positions.map((pos) => {
                       const posResults = voteResults.filter((r) => r.position_id === pos.id);
                       if (posResults.length === 0) return null;
-                      const maxVotes = Math.max(...posResults.map((r) => r.votes));
-                      const totalPosVotes = posResults.reduce((s, r) => s + r.votes, 0);
-                      const winner = posResults.find((r) => r.votes === maxVotes);
+                      const posVotesNum = posResults.map((r) => ({ ...r, votes: Number(r.votes) }));
+                      const maxVotes = Math.max(...posVotesNum.map((r) => r.votes));
+                      const totalPosVotes = posVotesNum.reduce((s, r) => s + r.votes, 0);
+                      const winner = posVotesNum.find((r) => r.votes === maxVotes);
                       return (
                         <div key={pos.id} className="rounded-2xl border border-gray-100/80 bg-white shadow-sm overflow-hidden">
                           <div className="flex items-center justify-between bg-gradient-to-r from-gray-50 to-white border-b border-gray-100 px-5 py-3.5">
@@ -463,7 +465,7 @@ const [drilldownLoading, setDrilldownLoading] = useState(false);
                             </div>
                           </div>
                           <div className="px-5 py-4">
-                            {posResults.map((r, idx) => {
+                            {posVotesNum.map((r, idx) => {
                               const pct = totalPosVotes > 0 ? Math.round((r.votes / totalPosVotes) * 100) : 0;
                               const isWinner = r.votes === maxVotes && maxVotes > 0;
                               return (

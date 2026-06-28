@@ -424,9 +424,10 @@ export default function Home() {
                 }));
                 return positions.map((pos) => {
                   const posResults = voteResults.filter((r) => r.position_id === pos.id);
-                  const maxVotes = Math.max(...posResults.map((r) => r.votes));
-                  const totalPosVotes = posResults.reduce((s, r) => s + r.votes, 0);
-                  const winner = posResults.find((r) => r.votes === maxVotes);
+                  const posVotesNum = posResults.map((r) => ({ ...r, votes: Number(r.votes) }));
+                  const maxVotes = Math.max(...posVotesNum.map((r) => r.votes));
+                  const totalPosVotes = posVotesNum.reduce((s, r) => s + r.votes, 0);
+                  const winner = posVotesNum.find((r) => r.votes === maxVotes);
                   return (
                     <FadeInSection key={pos.id}>
                       <div className="card p-5 overflow-hidden">
@@ -435,7 +436,7 @@ export default function Home() {
                           <span className="text-[10px] text-gray-400 font-medium">{totalPosVotes} votes</span>
                         </div>
                         <div className="space-y-2">
-                          {posResults.map((r) => {
+                          {posVotesNum.map((r) => {
                             const pct = totalPosVotes > 0 ? Math.round((r.votes / totalPosVotes) * 100) : 0;
                             const isWinner = r.votes === maxVotes && maxVotes > 0;
                             return (
