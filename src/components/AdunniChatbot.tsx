@@ -229,7 +229,7 @@ export default function AdunniChatbot() {
       </button>
 
       <div
-        className={`fixed bottom-5 right-5 z-50 flex w-[380px] flex-col overflow-hidden rounded-2xl border border-white/20 shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+        className={`fixed bottom-5 right-1 sm:right-5 z-50 flex w-[95vw] max-w-[380px] flex-col overflow-hidden rounded-2xl border border-white/20 shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
           open
             ? "opacity-100 scale-100 translate-y-0"
             : "opacity-0 scale-75 translate-y-8 pointer-events-none"

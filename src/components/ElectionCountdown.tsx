@@ -75,7 +75,7 @@ export default function ElectionCountdown() {
         </p>
 
         {phase === "countdown" && (
-          <div className="flex items-center justify-center gap-3 sm:gap-5 mb-10">
+          <div className="flex items-center justify-center gap-2 sm:gap-5 mb-10">
             {[
               { label: "Days", value: pad(timeLeft.days) },
               { label: "Hours", value: pad(timeLeft.hours) },
@@ -83,12 +83,12 @@ export default function ElectionCountdown() {
               { label: "Seconds", value: pad(timeLeft.seconds) },
             ].map((unit) => (
               <div key={unit.label} className="text-center">
-                <div className="flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-sm border border-white/10 shadow-inner">
-                  <span className="text-3xl sm:text-4xl font-bold text-white tabular-nums">
+                <div className="flex h-16 w-16 sm:h-24 sm:w-24 items-center justify-center rounded-xl sm:rounded-2xl bg-white/10 backdrop-blur-sm border border-white/10 shadow-inner">
+                  <span className="text-xl sm:text-4xl font-bold text-white tabular-nums">
                     {unit.value}
                   </span>
                 </div>
-                <p className="mt-2 text-[11px] text-white/40 uppercase tracking-[0.15em] font-medium">
+                <p className="mt-1 sm:mt-2 text-[10px] sm:text-[11px] text-white/40 uppercase tracking-[0.15em] font-medium">
                   {unit.label}
                 </p>
               </div>

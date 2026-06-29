@@ -79,11 +79,11 @@ export default function MetricsSection() {
           <span className="section-tag mb-5 inline-block">By the Numbers</span>
           <h2 className="section-title">Our Impact</h2>
         </div>
-        <div className="grid grid-cols-2 gap-5 sm:gap-8 lg:grid-cols-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-8 lg:grid-cols-4">
           {metrics.map((m, i) => (
             <div
               key={m.label}
-              className={`group relative rounded-2xl border border-gray-100 bg-white p-8 sm:p-10 text-center shadow-sm hover:shadow-xl hover:shadow-brand-blue/10 transition-all duration-500 hover:-translate-y-2 ${
+              className={`group relative rounded-2xl border border-gray-100 bg-white p-6 sm:p-8 lg:p-10 text-center shadow-sm hover:shadow-xl hover:shadow-brand-blue/10 transition-all duration-500 hover:-translate-y-2 ${
                 started ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                   }`}
               style={{
@@ -92,14 +92,14 @@ export default function MetricsSection() {
                 transitionDuration: "600ms",
               }}
             >
-              <div className="flex justify-center mb-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-brand-blue/10 text-brand-blue transition-all duration-300 group-hover:bg-brand-blue group-hover:text-white group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-brand-blue/20">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
+              <div className="flex justify-center mb-3 sm:mb-4">
+                <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl bg-brand-blue/10 text-brand-blue transition-all duration-300 group-hover:bg-brand-blue group-hover:text-white group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-brand-blue/20">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 sm:w-7 sm:h-7">
                     <path strokeLinecap="round" strokeLinejoin="round" d={m.icon} />
                   </svg>
                 </div>
               </div>
-              <div className="text-5xl sm:text-6xl font-bold tabular-nums leading-none mb-2"
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold tabular-nums leading-none mb-2"
                 style={{
                   background: "linear-gradient(135deg, #054ea4, #e7b801)",
                   WebkitBackgroundClip: "text",
@@ -110,7 +110,7 @@ export default function MetricsSection() {
                 {counts[i]}
                 {m.suffix || "+"}
               </div>
-              <p className="mt-3 text-lg sm:text-xl text-gray-500 font-medium">
+              <p className="mt-2 sm:mt-3 text-base sm:text-lg lg:text-xl text-gray-500 font-medium">
                 {m.label}
               </p>
             </div>

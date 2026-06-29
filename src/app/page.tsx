@@ -166,7 +166,7 @@ export default function Home() {
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-1/4 -left-20 w-72 h-72 bg-brand-gold/5 rounded-full blur-3xl animate-pulse" style={{ animationDuration: "3s" }} />
           <div className="absolute bottom-1/3 -right-20 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDuration: "4s" }} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-blue/30 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vmin] h-[80vmin] max-w-[500px] max-h-[500px] bg-brand-blue/30 rounded-full blur-3xl" />
         </div>
         <div className="relative flex flex-col items-center">
           <div className="mb-6" style={{ animation: "fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" }}>
@@ -179,7 +179,7 @@ export default function Home() {
             SJMUSSO <span className="text-brand-gold">&apos;07</span>
           </h1>
           <div className="mt-3 overflow-hidden">
-            <p className="text-sm sm:text-base text-white/40 tracking-[0.25em] uppercase" style={{ animation: "typing 1.5s steps(25) 0.3s forwards, blink 0.8s step-end infinite", overflow: "hidden", whiteSpace: "nowrap", maxWidth: "fit-content", borderRight: "2px solid rgba(231,184,1,0.5)" }}>
+            <p className="text-sm sm:text-base text-white/40 tracking-[0.15em] sm:tracking-[0.25em] uppercase" style={{ animation: "typing 1.5s steps(25) 0.3s forwards, blink 0.8s step-end infinite", overflow: "hidden", whiteSpace: "nowrap", maxWidth: "fit-content", borderRight: "2px solid rgba(231,184,1,0.5)" }}>
               To Know, To Love, To Serve
             </p>
           </div>
@@ -272,19 +272,19 @@ export default function Home() {
             >
               <a
                 href="/login"
-                className="inline-flex items-center gap-2 rounded-xl bg-brand-blue px-8 py-3.5 text-base font-medium text-white shadow-lg shadow-brand-blue/20 transition-all duration-300 hover:bg-blue-700 hover:shadow-xl hover:shadow-brand-blue/30 hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 rounded-xl bg-brand-blue px-6 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base font-medium text-white shadow-lg shadow-brand-blue/20 transition-all duration-300 hover:bg-blue-700 hover:shadow-xl hover:shadow-brand-blue/30 hover:-translate-y-0.5"
                 style={{ animation: "glowPulse 3s ease-in-out infinite" }}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 sm:w-5 sm:h-5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
                 </svg>
                 Sign In
               </a>
               <a
                 href="/register"
-                className="inline-flex items-center gap-2 rounded-xl bg-brand-gold px-8 py-3.5 text-base font-medium text-white shadow-lg shadow-brand-gold/20 transition-all duration-300 hover:bg-yellow-600 hover:shadow-xl hover:shadow-brand-gold/30 hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 rounded-xl bg-brand-gold px-6 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base font-medium text-white shadow-lg shadow-brand-gold/20 transition-all duration-300 hover:bg-yellow-600 hover:shadow-xl hover:shadow-brand-gold/30 hover:-translate-y-0.5"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 sm:w-5 sm:h-5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
                 </svg>
                 Register Now
@@ -333,7 +333,7 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4 sm:gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                 {[
                   {
                     title: "Reconnect",
@@ -369,10 +369,10 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                       </svg>
                     </div>
-                    <h3 className="text-lg font-bold text-gray-800 group-hover:text-brand-blue transition-colors">
+                    <h3 className="text-base sm:text-lg font-bold text-gray-800 group-hover:text-brand-blue transition-colors">
                       {item.title}
                     </h3>
-                    <p className="mt-2 text-base sm:text-lg text-gray-500 leading-relaxed">{item.desc}</p>
+                    <p className="mt-2 text-sm sm:text-lg text-gray-500 leading-relaxed">{item.desc}</p>
                   </div>
                 ))}
               </div>
