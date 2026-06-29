@@ -100,15 +100,14 @@ export default function Footer() {
           <p className="italic text-white/30 text-xs">
             &ldquo;To Know, To Love, To Serve&rdquo;
           </p>
-          <p className="text-[10px] text-white/20">
-            Built by{" "}
+          <p className="text-[10px] text-white/30">
             <a
-              href="https://joblin-hx5a.onrender.com/"
+              href="https://wa.me/2349038819790"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline underline-offset-2 hover:text-white/40 transition-colors"
+              className="underline underline-offset-2 hover:text-white/50 transition-colors"
             >
-              Joblin&apos;s Builder
+              +234 903 881 9790
             </a>
           </p>
         </div>

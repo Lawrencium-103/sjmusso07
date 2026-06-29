@@ -474,7 +474,7 @@ export default function Home() {
                       </thead>
                       <tbody>
                         <tr className="border-b border-gray-50">
-                          <td className="py-1.5 text-gray-600">Seeded Members</td>
+                          <td className="py-1.5 text-gray-600">1st Registered Members</td>
                           <td className="py-1.5 text-right font-medium text-gray-800">{turnout.breakdown.seeded.voted}</td>
                           <td className="py-1.5 text-right text-gray-500">{turnout.breakdown.seeded.total}</td>
                           <td className="py-1.5 text-right text-gray-600">{turnout.breakdown.seeded.total > 0 ? Math.round((turnout.breakdown.seeded.voted / turnout.breakdown.seeded.total) * 100) : 0}%</td>
