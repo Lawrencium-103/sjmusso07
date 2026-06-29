@@ -393,17 +393,61 @@ export default function Home() {
 
       {/* ─── PUBLISHED RESULTS ─── */}
       {resultsPublished && (
-        <section className="bg-gray-50 py-24 sm:py-32">
-          <div className="mx-auto max-w-6xl px-4">
+        <section className="bg-gray-50 py-24 sm:py-32 relative overflow-hidden">
+          {/* Confetti particles */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            {Array.from({ length: 18 }).map((_, i) => (
+              <div
+                key={i}
+                className="absolute w-2 h-2 rounded-sm"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `-2%`,
+                  backgroundColor: ["#e7b801", "#054ea4", "#f59e0b", "#10b981", "#ef4444", "#8b5cf6"][i % 6],
+                  animation: `confetti-fall ${2 + Math.random() * 3}s ease-in ${Math.random() * 2}s forwards`,
+                  animationDelay: `${Math.random() * 3}s`,
+                  width: `${4 + Math.random() * 6}px`,
+                  height: `${4 + Math.random() * 6}px`,
+                  borderRadius: Math.random() > 0.5 ? "50%" : "2px",
+                }}
+              />
+            ))}
+          </div>
+
+          <div className="mx-auto max-w-6xl px-4 relative">
             <FadeInSection>
               <div className="text-center mb-14">
-                <span className="section-tag mb-5 inline-block">Results</span>
-                <h2 className="section-title">Election Results 2026</h2>
+                <div className="inline-flex items-center gap-3 mb-4">
+                  <span className="text-3xl" style={{ animation: "celebrate-bounce 0.6s ease-out 0.2s both" }}>🎉</span>
+                  <span className="section-tag inline-block">Results</span>
+                  <span className="text-3xl" style={{ animation: "celebrate-bounce 0.6s ease-out 0.4s both" }}>🎊</span>
+                </div>
+                <h2 className="section-title">
+                  Election Results 2026
+                </h2>
                 <p className="section-subtitle mt-4">
-                  See the outcome of the alumni executive council elections
+                  Congratulations to all winners! The alumni have spoken.
                 </p>
               </div>
             </FadeInSection>
+
+            {/* Celebration banner */}
+            <FadeInSection>
+              <div
+                className="mb-10 rounded-2xl bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 border border-amber-200 p-6 text-center max-w-lg mx-auto shadow-lg"
+                style={{ animation: "win-glow 2s ease-in-out infinite" }}
+              >
+                <div className="text-4xl mb-2" style={{ animation: "celebrate-bounce 0.6s ease-out 0.3s both" }}>🏆</div>
+                <p className="text-xl font-bold text-amber-800 mb-1">Election Results Published!</p>
+                <p className="text-sm text-amber-600">Thank you to all {turnout.total} alumni for participating</p>
+                <div className="mt-3 flex justify-center gap-3 text-2xl">
+                  <span style={{ animation: "celebrate-bounce 0.6s ease-out 0.5s both" }}>🎉</span>
+                  <span style={{ animation: "celebrate-bounce 0.6s ease-out 0.7s both" }}>🎊</span>
+                  <span style={{ animation: "celebrate-bounce 0.6s ease-out 0.9s both" }}>✨</span>
+                </div>
+              </div>
+            </FadeInSection>
+
             <div className="mb-10">
               <FadeInSection>
                 <div className="card p-6 text-center max-w-md mx-auto">
@@ -440,21 +484,29 @@ export default function Home() {
                             const pct = totalPosVotes > 0 ? Math.round((r.votes / totalPosVotes) * 100) : 0;
                             const isWinner = r.votes === maxVotes && maxVotes > 0;
                             return (
-                              <div key={r.aspirant_id} className={`flex items-center justify-between gap-2 rounded-lg p-2 ${isWinner ? "bg-amber-50/50 border border-amber-100" : ""}`}>
+                              <div key={r.aspirant_id} className={`relative flex items-center justify-between gap-2 rounded-lg p-2 transition-all duration-500 ${isWinner ? "bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 border border-amber-200 shadow-sm" : "hover:bg-gray-50"}`}
+                                style={isWinner ? { animation: "win-glow 2s ease-in-out infinite" } : {}}
+                              >
                                 <div className="flex items-center gap-2 min-w-0 flex-1">
                                   {isWinner && (
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 shrink-0 text-amber-500">
-                                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0" />
-                                    </svg>
+                                    <>
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 shrink-0 text-amber-500">
+                                        <path d="M10.375 2.25a4.125 4.125 0 100 8.25 4.125 4.125 0 000-8.25zM10.375 12a7.125 7.125 0 00-7.124 7.247.75.75 0 00.363.63 13.067 13.067 0 006.761 1.873c2.472 0 4.786-.684 6.76-1.873a.75.75 0 00.363-.63 7.125 7.125 0 00-7.124-7.247zM18.234 6.934a.75.75 0 00-1.072-.464l-1.916 1.064a.75.75 0 00.178 1.372l.408.117-.408.117a.75.75 0 00-.178 1.372l1.916 1.064a.75.75 0 001.072-.464.75.75 0 00.424-.917l-.408-1.172.408-1.172a.75.75 0 00-.424-.917z" />
+                                      </svg>
+                                      <span className="absolute -top-1 -left-1 text-[8px] animate-ping text-amber-400/50">✦</span>
+                                    </>
                                   )}
                                   <span className={`text-sm truncate ${isWinner ? "font-bold text-gray-900" : "text-gray-600"}`}>{r.aspirant_name}</span>
+                                  {isWinner && (
+                                    <span className="text-[10px] font-bold text-amber-600 bg-amber-100 px-1.5 py-0.5 rounded-full shrink-0">Winner</span>
+                                  )}
                                 </div>
                                 <div className="flex items-center gap-2 shrink-0">
                                   <div className="w-20 h-1.5 rounded-full bg-gray-100 overflow-hidden">
-                                    <div className={`h-full rounded-full ${isWinner ? "bg-brand-gold" : "bg-brand-blue/40"}`} style={{ width: maxVotes > 0 ? `${(r.votes / maxVotes) * 100}%` : 0 }} />
+                                    <div className={`h-full rounded-full transition-all duration-700 ${isWinner ? "bg-gradient-to-r from-amber-400 to-brand-gold" : "bg-brand-blue/40"}`} style={{ width: maxVotes > 0 ? `${(r.votes / maxVotes) * 100}%` : 0 }} />
                                   </div>
-                                  <span className="text-xs font-bold text-gray-700 w-5 text-right">{r.votes}</span>
-                                  <span className="text-[10px] text-gray-400 w-7 text-right">{pct}%</span>
+                                  <span className={`text-xs font-bold w-5 text-right ${isWinner ? "text-amber-700" : "text-gray-700"}`}>{r.votes}</span>
+                                  <span className={`text-[10px] w-7 text-right ${isWinner ? "text-amber-500 font-medium" : "text-gray-400"}`}>{pct}%</span>
                                 </div>
                               </div>
                             );
