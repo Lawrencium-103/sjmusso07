@@ -9,12 +9,34 @@ async function getTurnout(db: ReturnType<typeof getDb>) {
   const totalAlumni = await db.get(
     "SELECT COUNT(*) as count FROM alumni"
   ) as any;
+  const seededVoters = await db.get(
+    `SELECT COUNT(DISTINCT v.alumni_id) as count
+     FROM votes v
+     JOIN alumni a ON v.alumni_id = a.id
+     WHERE a.is_seeded = 1`
+  ) as any;
+  const nonSeededVoters = await db.get(
+    `SELECT COUNT(DISTINCT v.alumni_id) as count
+     FROM votes v
+     JOIN alumni a ON v.alumni_id = a.id
+     WHERE a.is_seeded = 0`
+  ) as any;
+  const seededTotal = await db.get(
+    "SELECT COUNT(*) as count FROM alumni WHERE is_seeded = 1"
+  ) as any;
+  const nonSeededTotal = await db.get(
+    "SELECT COUNT(*) as count FROM alumni WHERE is_seeded = 0"
+  ) as any;
   return {
     voted: totalVoters.count,
     total: totalAlumni.count,
     percentage: totalAlumni.count > 0
       ? Math.round((totalVoters.count / totalAlumni.count) * 100)
       : 0,
+    breakdown: {
+      seeded: { voted: seededVoters.count, total: seededTotal.count },
+      nonSeeded: { voted: nonSeededVoters.count, total: nonSeededTotal.count },
+    },
   };
 }
 

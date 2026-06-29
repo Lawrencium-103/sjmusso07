@@ -98,7 +98,8 @@ export default function ElectionCountdown() {
 
         {(phase === "voting" || phase === "results") && (
           <a
-            href={phase === "voting" ? "/vote" : "/"}
+            href={phase === "voting" ? "/vote" : "#results"}
+            onClick={phase === "results" ? (e) => { e.preventDefault(); document.getElementById("results")?.scrollIntoView({ behavior: "smooth" }); } : undefined}
             className="inline-flex items-center gap-2 rounded-xl bg-brand-gold px-8 py-3.5 text-base font-medium text-white shadow-lg shadow-brand-gold/20 transition-all duration-300 hover:bg-yellow-600 hover:shadow-xl hover:shadow-brand-gold/30 hover:-translate-y-0.5"
           >
             {phase === "voting" ? (

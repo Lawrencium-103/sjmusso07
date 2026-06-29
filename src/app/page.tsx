@@ -126,7 +126,7 @@ export default function Home() {
   const [meetings, setMeetings] = useState<Meeting[]>([]);
   const [resultsPublished, setResultsPublished] = useState(false);
   const [voteResults, setVoteResults] = useState<any[]>([]);
-  const [turnout, setTurnout] = useState({ voted: 0, total: 0, percentage: 0 });
+  const [turnout, setTurnout] = useState({ voted: 0, total: 0, percentage: 0, breakdown: { seeded: { voted: 0, total: 0 }, nonSeeded: { voted: 0, total: 0 } } });
 
   useEffect(() => {
     const timer = setTimeout(() => setSplash(false), 2200);
@@ -138,14 +138,14 @@ export default function Home() {
       fetch("/api/news").then((r) => r.json()),
       fetch("/api/meetings").then((r) => r.json()),
       fetch("/api/settings").then((r) => r.json()).catch(() => ({ settings: {} })),
-      fetch("/api/votes?scope=public").then((r) => r.json()).catch(() => ({ results: [], turnout: { voted: 0, total: 0, percentage: 0 } })),
+      fetch("/api/votes?scope=public").then((r) => r.json()).catch(() => ({ results: [], turnout: { voted: 0, total: 0, percentage: 0, breakdown: { seeded: { voted: 0, total: 0 }, nonSeeded: { voted: 0, total: 0 } } } })),
     ])
       .then(([newsData, meetingsData, settingsData, votesData]) => {
         setNews(newsData.news || []);
         setMeetings(meetingsData.meetings || []);
         setResultsPublished(settingsData.settings?.results_published === "true");
         setVoteResults(votesData.results || []);
-        setTurnout(votesData.turnout || { voted: 0, total: 0, percentage: 0 });
+        setTurnout(votesData.turnout || { voted: 0, total: 0, percentage: 0, breakdown: { seeded: { voted: 0, total: 0 }, nonSeeded: { voted: 0, total: 0 } } });
       })
       .catch(() => {});
   }, []);
@@ -393,22 +393,22 @@ export default function Home() {
 
       {/* ─── PUBLISHED RESULTS ─── */}
       {resultsPublished && (
-        <section className="bg-gray-50 py-24 sm:py-32 relative overflow-hidden">
-          {/* Confetti particles */}
+        <section id="results" className="bg-gray-50 py-24 sm:py-32 relative overflow-hidden">
+          {/* Confetti particles — continuous looping */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            {Array.from({ length: 18 }).map((_, i) => (
+            {Array.from({ length: 40 }).map((_, i) => (
               <div
                 key={i}
-                className="absolute w-2 h-2 rounded-sm"
+                className="absolute rounded-sm"
                 style={{
                   left: `${Math.random() * 100}%`,
-                  top: `-2%`,
+                  top: `${-10 - Math.random() * 20}%`,
                   backgroundColor: ["#e7b801", "#054ea4", "#f59e0b", "#10b981", "#ef4444", "#8b5cf6"][i % 6],
-                  animation: `confetti-fall ${2 + Math.random() * 3}s ease-in ${Math.random() * 2}s forwards`,
-                  animationDelay: `${Math.random() * 3}s`,
-                  width: `${4 + Math.random() * 6}px`,
-                  height: `${4 + Math.random() * 6}px`,
-                  borderRadius: Math.random() > 0.5 ? "50%" : "2px",
+                  animation: `confetti-fall ${3 + Math.random() * 5}s linear ${Math.random() * -8}s infinite`,
+                  width: `${3 + Math.random() * 6}px`,
+                  height: `${3 + Math.random() * 6}px`,
+                  borderRadius: Math.random() > 0.5 ? "50%" : "1px",
+                  opacity: 0.9,
                 }}
               />
             ))}
@@ -450,12 +450,49 @@ export default function Home() {
 
             <div className="mb-10">
               <FadeInSection>
-                <div className="card p-6 text-center max-w-md mx-auto">
-                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Voter Turnout</p>
-                  <p className="text-4xl font-bold text-brand-blue">{turnout.percentage}%</p>
-                  <p className="text-sm text-gray-500 mt-1">{turnout.voted} of {turnout.total} alumni voted</p>
-                  <div className="mt-3 h-2 w-full rounded-full bg-gray-100 overflow-hidden">
-                    <div className="h-full rounded-full bg-brand-blue transition-all" style={{ width: `${turnout.percentage}%` }} />
+                <div className="max-w-md mx-auto space-y-4">
+                  <div className="card p-6 text-center">
+                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Voter Turnout</p>
+                    <p className="text-4xl font-bold text-brand-blue">{turnout.percentage}%</p>
+                    <p className="text-sm text-gray-500 mt-1">{turnout.voted} of {turnout.total} alumni voted</p>
+                    <div className="mt-3 h-2 w-full rounded-full bg-gray-100 overflow-hidden">
+                      <div className="h-full rounded-full bg-brand-blue transition-all" style={{ width: `${turnout.percentage}%` }} />
+                    </div>
+                  </div>
+
+                  {/* Transparency breakdown table */}
+                  <div className="card p-4">
+                    <p className="text-[10px] text-gray-400 uppercase tracking-wider text-center mb-3">Turnout Breakdown</p>
+                    <table className="w-full text-xs">
+                      <thead>
+                        <tr className="border-b border-gray-100">
+                          <th className="text-left py-1.5 text-gray-400 font-medium">Category</th>
+                          <th className="text-right py-1.5 text-gray-400 font-medium">Voted</th>
+                          <th className="text-right py-1.5 text-gray-400 font-medium">Total</th>
+                          <th className="text-right py-1.5 text-gray-400 font-medium">%</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-b border-gray-50">
+                          <td className="py-1.5 text-gray-600">Seeded Members</td>
+                          <td className="py-1.5 text-right font-medium text-gray-800">{turnout.breakdown.seeded.voted}</td>
+                          <td className="py-1.5 text-right text-gray-500">{turnout.breakdown.seeded.total}</td>
+                          <td className="py-1.5 text-right text-gray-600">{turnout.breakdown.seeded.total > 0 ? Math.round((turnout.breakdown.seeded.voted / turnout.breakdown.seeded.total) * 100) : 0}%</td>
+                        </tr>
+                        <tr className="border-b border-gray-50">
+                          <td className="py-1.5 text-gray-600">Self-Registered</td>
+                          <td className="py-1.5 text-right font-medium text-gray-800">{turnout.breakdown.nonSeeded.voted}</td>
+                          <td className="py-1.5 text-right text-gray-500">{turnout.breakdown.nonSeeded.total}</td>
+                          <td className="py-1.5 text-right text-gray-600">{turnout.breakdown.nonSeeded.total > 0 ? Math.round((turnout.breakdown.nonSeeded.voted / turnout.breakdown.nonSeeded.total) * 100) : 0}%</td>
+                        </tr>
+                        <tr className="font-medium">
+                          <td className="py-1.5 text-gray-800">Total</td>
+                          <td className="py-1.5 text-right text-gray-900">{turnout.voted}</td>
+                          <td className="py-1.5 text-right text-gray-700">{turnout.total}</td>
+                          <td className="py-1.5 text-right text-brand-blue font-bold">{turnout.percentage}%</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </FadeInSection>
@@ -484,29 +521,26 @@ export default function Home() {
                             const pct = totalPosVotes > 0 ? Math.round((r.votes / totalPosVotes) * 100) : 0;
                             const isWinner = r.votes === maxVotes && maxVotes > 0;
                             return (
-                              <div key={r.aspirant_id} className={`relative flex items-center justify-between gap-2 rounded-lg p-2 transition-all duration-500 ${isWinner ? "bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 border border-amber-200 shadow-sm" : "hover:bg-gray-50"}`}
+                              <div key={r.aspirant_id} className={`relative flex flex-wrap items-center gap-1.5 rounded-lg p-2 transition-all duration-500 ${isWinner ? "bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 border border-amber-200 shadow-sm" : "hover:bg-gray-50"}`}
                                 style={isWinner ? { animation: "win-glow 2s ease-in-out infinite" } : {}}
                               >
-                                <div className="flex items-center gap-2 min-w-0 flex-1">
+                                <div className="flex items-center gap-1.5 min-w-0 flex-[1_1_auto]">
                                   {isWinner && (
-                                    <>
-                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 shrink-0 text-amber-500">
-                                        <path d="M10.375 2.25a4.125 4.125 0 100 8.25 4.125 4.125 0 000-8.25zM10.375 12a7.125 7.125 0 00-7.124 7.247.75.75 0 00.363.63 13.067 13.067 0 006.761 1.873c2.472 0 4.786-.684 6.76-1.873a.75.75 0 00.363-.63 7.125 7.125 0 00-7.124-7.247zM18.234 6.934a.75.75 0 00-1.072-.464l-1.916 1.064a.75.75 0 00.178 1.372l.408.117-.408.117a.75.75 0 00-.178 1.372l1.916 1.064a.75.75 0 001.072-.464.75.75 0 00.424-.917l-.408-1.172.408-1.172a.75.75 0 00-.424-.917z" />
-                                      </svg>
-                                      <span className="absolute -top-1 -left-1 text-[8px] animate-ping text-amber-400/50">✦</span>
-                                    </>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0 text-amber-500">
+                                      <path d="M10.375 2.25a4.125 4.125 0 100 8.25 4.125 4.125 0 000-8.25zM10.375 12a7.125 7.125 0 00-7.124 7.247.75.75 0 00.363.63 13.067 13.067 0 006.761 1.873c2.472 0 4.786-.684 6.76-1.873a.75.75 0 00.363-.63 7.125 7.125 0 00-7.124-7.247zM18.234 6.934a.75.75 0 00-1.072-.464l-1.916 1.064a.75.75 0 00.178 1.372l.408.117-.408.117a.75.75 0 00-.178 1.372l1.916 1.064a.75.75 0 001.072-.464.75.75 0 00.424-.917l-.408-1.172.408-1.172a.75.75 0 00-.424-.917z" />
+                                    </svg>
                                   )}
-                                  <span className={`text-sm truncate ${isWinner ? "font-bold text-gray-900" : "text-gray-600"}`}>{r.aspirant_name}</span>
+                                  <span className={`text-xs sm:text-sm leading-snug break-words ${isWinner ? "font-bold text-gray-900" : "text-gray-600"}`} title={r.aspirant_name}>{r.aspirant_name}</span>
                                   {isWinner && (
-                                    <span className="text-[10px] font-bold text-amber-600 bg-amber-100 px-1.5 py-0.5 rounded-full shrink-0">Winner</span>
+                                    <span className="text-[9px] sm:text-[10px] font-bold text-amber-600 bg-amber-100 px-1.5 py-0.5 rounded-full shrink-0 leading-tight">Winner</span>
                                   )}
                                 </div>
-                                <div className="flex items-center gap-2 shrink-0">
-                                  <div className="w-20 h-1.5 rounded-full bg-gray-100 overflow-hidden">
+                                <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 ml-auto">
+                                  <div className="w-14 sm:w-20 h-1.5 rounded-full bg-gray-100 overflow-hidden">
                                     <div className={`h-full rounded-full transition-all duration-700 ${isWinner ? "bg-gradient-to-r from-amber-400 to-brand-gold" : "bg-brand-blue/40"}`} style={{ width: maxVotes > 0 ? `${(r.votes / maxVotes) * 100}%` : 0 }} />
                                   </div>
-                                  <span className={`text-xs font-bold w-5 text-right ${isWinner ? "text-amber-700" : "text-gray-700"}`}>{r.votes}</span>
-                                  <span className={`text-[10px] w-7 text-right ${isWinner ? "text-amber-500 font-medium" : "text-gray-400"}`}>{pct}%</span>
+                                  <span className={`text-[11px] sm:text-xs font-bold w-4 sm:w-5 text-right ${isWinner ? "text-amber-700" : "text-gray-700"}`}>{r.votes}</span>
+                                  <span className={`text-[10px] w-5 sm:w-7 text-right ${isWinner ? "text-amber-500 font-medium" : "text-gray-400"}`}>{pct}%</span>
                                 </div>
                               </div>
                             );
