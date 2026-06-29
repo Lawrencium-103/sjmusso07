@@ -100,14 +100,15 @@ export default function Footer() {
           <p className="italic text-white/30 text-xs">
             &ldquo;To Know, To Love, To Serve&rdquo;
           </p>
-          <p className="text-[10px] text-white/30">
+          <p className="text-xs text-white/60 font-light tracking-wide">
+            Built by{" "}
             <a
               href="https://wa.me/2349038819790"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline underline-offset-2 hover:text-white/50 transition-colors"
+              className="text-white font-medium hover:text-white/70 transition-colors"
             >
-              +234 903 881 9790
+              Lawrence
             </a>
           </p>
         </div>
